@@ -1006,7 +1006,7 @@
 				return i;
 			}
 			function pre_defalut(e) {
-				if (!def_config.is_mobile && e) {
+				if ((!def_config.is_mobile && e) ||isVertical) {
 					e.preventDefault();
 				}
 			}

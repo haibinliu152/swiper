@@ -34,14 +34,20 @@ body {
     margin-bottom: 20px;
     margin-top: 20px;
 }
-
+.demo01{
+    height: 480px;
+}
 .swiper-items {
     text-align: justify;
     height: 100%;
     position: relative;
     overflow: hidden;
+    
 }
-
+.swiper-items a {
+    display: flex!important;
+    align-items: center;
+}
 .swiper-items img {
     width: 100%;
     height: 100%;
@@ -62,4 +68,10 @@ body {
 .heiwukong .pagehelper .pagination-items-active {
     width: 14px;
     background-color: none;
+}
+.grid-layout{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 2fr);
+    gap: 10px;
 }
