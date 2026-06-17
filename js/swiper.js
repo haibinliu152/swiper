@@ -937,6 +937,9 @@
 				if (isIe) {
 					return;
 				}
+				if(def_config.autoplay===false){
+					return;
+				}
 				var delay_time = 2000;
 				if (object_contains(def_config, "autoplay")) {
 					if (typeof def_config.autoplay === "number") {
@@ -950,6 +953,7 @@
 				}
 			}
 			function play_slide(play) {
+				
 				if (!play) {
 					clearInterval(timer);
 					timer = null;
