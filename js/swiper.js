@@ -382,7 +382,7 @@
 					return this;
 				} else {
 					if (is_str(prop)) {
-						return this.$el.style[prop];
+						return get_style(this.$el)[prop];
 					} else {
 						console.error('invaild param');
 						void (0);
@@ -775,7 +775,20 @@
 			get_style(def_config.slide.get(0));
 		}
 		var isVertical = def_config.direction === "vertical";
-		var distance = isVertical ? def_config.height : def_config.width;
+		var distance = -1;
+		function setDistance() {
+			distance = isVertical ? def_config.height : def_config.width
+		}
+		setDistance();
+		// 更新数据
+		function update_data() {
+			let _el = $(el);
+			let width = _el.css("width");
+			let height = _el.css("height");
+			def_config.height = height;
+			def_config.width = width;
+			setDistance();
+		}
 		function init_swiper() {
 			var _target = {
 				index: 0,
@@ -937,7 +950,7 @@
 				if (isIe) {
 					return;
 				}
-				if(def_config.autoplay===false){
+				if (def_config.autoplay === false) {
 					return;
 				}
 				var delay_time = 2000;
@@ -953,7 +966,6 @@
 				}
 			}
 			function play_slide(play) {
-				
 				if (!play) {
 					clearInterval(timer);
 					timer = null;
@@ -1010,7 +1022,7 @@
 				return i;
 			}
 			function pre_defalut(e) {
-				if ((!def_config.is_mobile && e) ||isVertical) {
+				if ((!def_config.is_mobile && e) || isVertical) {
 					e.preventDefault();
 				}
 			}
@@ -1165,6 +1177,7 @@
 			__time = setTimeout(function () {
 				_j.set_children_layout();
 				inits.to();
+				update_data();
 			}, 220)
 		})
 	}

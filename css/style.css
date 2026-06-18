@@ -24,9 +24,10 @@ body {
     border-radius: 8px;
 }
 
-.demo01, .demo02 {
-    width: 600px;
-    height:340px;
+.demo01,
+.demo02 {
+    width: 100vw;
+    height: 42vh;
     background-color: white;
     position: relative;
     border-radius: 6px;
@@ -34,20 +35,21 @@ body {
     margin-bottom: 20px;
     margin-top: 20px;
 }
-.demo01{
-    height: 480px;
-}
+
+
 .swiper-items {
     text-align: justify;
     height: 100%;
     position: relative;
     overflow: hidden;
-    
+
 }
+
 .swiper-items a {
-    display: flex!important;
+    display: flex !important;
     align-items: center;
 }
+
 .swiper-items img {
     width: 100%;
     height: 100%;
@@ -69,7 +71,8 @@ body {
     width: 14px;
     background-color: none;
 }
-.grid-layout{
+
+.grid-layout {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(1, 2fr);
