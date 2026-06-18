@@ -788,6 +788,7 @@
 			def_config.height = height;
 			def_config.width = width;
 			setDistance();
+
 		}
 		function init_swiper() {
 			var _target = {
@@ -1176,8 +1177,9 @@
 			clearTimeout(__time);
 			__time = setTimeout(function () {
 				_j.set_children_layout();
-				inits.to();
+				
 				update_data();
+				inits.to();
 			}, 220)
 		})
 	}
