@@ -945,13 +945,15 @@
 				}
 			}
 			/** 自动播放 */
-			var timer;
+			var timer=null;
 			var isIe = navigator.appVersion.indexOf("Trident") !== -1;
 			function auto_play() {
 				if (isIe) {
+					
 					return;
 				}
 				if (def_config.autoplay === false) {
+					
 					return;
 				}
 				var delay_time = 2000;
@@ -966,6 +968,7 @@
 					}
 				}
 			}
+			auto_play();
 			function play_slide(play) {
 				if (!play) {
 					clearInterval(timer);
