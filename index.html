@@ -13,9 +13,8 @@
 </head>
 
 <body style="display: flex;align-items: center;justify-content: center;height: 100vh;">
-	
+
 	<div class="app">
-		
 		<div class="demo01 simple-swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-items">
@@ -29,26 +28,10 @@
 					</a>
 				</div>
 				<div class="swiper-items">
-					<div class="grid-layout">
+					<a href="#123123">
 						<img ops="https://imgs2.58moto.com/essay_img/20260607/odImgt_1780801153221.jpeg!nowater600?_1080_720"
 							alt="">
-						<img ops="https://imgs2.58moto.com/content/2026/06/07/zAXlho_1780820788185.png!nowater600?_685_354"
-							alt="">
-						<img ops="https://imgs2.58moto.com/content/2026/06/07/TTymCa_1780821042141.png!nowater600?_686_353"
-							alt="">
-						<img ops="https://imgs2.58moto.com/content/2026/06/07/adXzhQ_1780824430428.png!nowater600?_1242_699"
-							alt="">
-						<img ops="https://imgs2.58moto.com/content/2026/06/07/dqspHG_1780824609316.png!nowater600?_1242_699"
-							alt="">
-						<img ops="https://imgs2.58moto.com/content/2026/06/07/EAhASE_1780838355126.jpeg!nowater600?_1920_1280"
-							alt="">
-						<img ops="https://imgs2.58moto.com/essay_img/20260607/FXwhSR_1780839163239.jpeg!nowater600?_1440_960"
-							alt="">
-						<img ops="https://imgs2.58moto.com/essay_img/20260609/aXUnux_1780966665137.jpeg!nowater600?_1080_668"
-							alt="">
-						<img ops="https://imgs2.58moto.com/content/2026/06/07/zFaBor_1780840283853.jpeg!nowater600?_1200_1200"
-							alt="">
-					</div>
+					</a>
 				</div>
 				<div class="swiper-items">
 					<a href="https://www.ithome.com/0/958/238.htm">
@@ -61,36 +44,6 @@
 			</span>
 			<span id="next" class="btn btn-next"> </span>
 		</div>
-		<div class="demo02 simple-swiper-container">
-			<div class="swiper-wrapper">
-				<div class="swiper-items">
-					<a href="https://www.ithome.com/0/958/391.htm">
-						<img data="img/banner01.jpg" alt="">
-					</a>
-				</div>
-				<div class="swiper-items">
-					<a href="https://www.ithome.com/0/958/498.htm">
-						<img data="img/banner02.jpg" alt="">
-					</a>
-				</div>
-				<div class="swiper-items">
-					<a href="https://www.ithome.com/0/958/391.htm">
-						<img data="img/banner03.jpg" alt="">
-					</a>
-				</div>
-				<div class="swiper-items">
-					这是一个按钮
-					<button onclick="alert('用户点击了')">点击我</button>
-					<button onclick="alert('用户点击了')">点击我</button>
-					<button onclick="alert('用户点击了')">点击我</button>
-					<button onclick="alert('用户点击了')">点击我</button>
-				</div>
-			</div>
-			<div class="pagehelper pagination" id="pagination01"></div>
-			<span id="prev01" class="btn btn-prev">
-			</span>
-			<span id="next01" class="btn btn-next"> </span>
-		</div>
 	</div>
 	</div>
 
@@ -100,7 +53,7 @@
 				prev: "#prev",// 前进后退按钮
 				next: "#next"
 			},
-			direction: "vertical",
+			// direction: "vertical",
 			pagination: "#pagination",
 			autoplay: 5000,
 			loop: true,
@@ -110,32 +63,8 @@
 			lazy: {
 				enable: true,
 				prop: "ops"
-			},
-			on: {
-				transition: function (e) {
-					// console.log(e);
-					// document.body.style.transform = `translateX(${e}px)`;
-				}
 			}
 		});
-		new SimSwiper(".demo02", {
-			navigator: {
-				prev: "#prev01",// 前进后退按钮
-				next: "#next01",
-				key: true
-			},
-			pagination: "#pagination01",
-			autoplay: false,
-			loop: true,
-			gab: 2,
-			defaultIndex: 0,
-			disabvarouch: false, // 关闭触摸
-			lazy: {
-				enable: true,
-				prop: "data"
-			}
-		});
-
 	</script>
 </body>
 

@@ -953,7 +953,6 @@
 					return;
 				}
 				if (def_config.autoplay === false) {
-					
 					return;
 				}
 				var delay_time = 2000;
@@ -968,11 +967,11 @@
 					}
 				}
 			}
+			var isHover=false;
 			auto_play();
 			function play_slide(play) {
 				if (!play) {
-					clearInterval(timer);
-					timer = null;
+					stop_play();
 				} else {
 					auto_play();
 				}
@@ -980,9 +979,11 @@
 			if (object_contains(def_config, "autoplay") && !isIe) {
 				$(el).hover(function (e) {
 					e.stopPropagation();
+					isHover=true;
 					play_slide(false);
 				}, function (e) {
 					e.stopPropagation();
+					isHover=false;
 					play_slide(true);
 				});
 			}
@@ -991,13 +992,12 @@
 				timer = null;
 			}
 			/** 触摸 - 已修复多点触控问题 */
+			
 			var is_press = false;
 			var startx = 0;
 			var endx = 0;
 			var is_left = false;
 			var movex = 0;
-			var startTime = null;
-			var _activeTouchId = null;
 			var is_click = false;
 			function animate(dis, duration, ease, call) {
 				if (undefined === ease) {
@@ -1143,7 +1143,9 @@
 				prevent_link(is_click);
 				pre_defalut(e);
 				e.stopPropagation();
-				play_slide(true);
+				if(!isHover){
+					play_slide(true);
+				}
 				if (!is_press) {
 					return;
 				}
@@ -1180,10 +1182,9 @@
 			clearTimeout(__time);
 			__time = setTimeout(function () {
 				_j.set_children_layout();
-				
 				update_data();
 				inits.to();
-			}, 220)
+			}, 240)
 		})
 	}
 	return {
