@@ -4,7 +4,7 @@
 		void 0 === t.__proto__ ? (t.SimSwiper = e, SimSwiper) : "undefined" != typeof module ? module.exports = e :
 			t.__proto__.SimSwiper = e
 	} else {
-		JSwiper = e;
+		SimSwiper = e;
 	}
 })(this, function (el, conf) {
 	var ID_VERSION = "ID.VERSION." + new Date().getMilliseconds() + "" + parseInt(Math.random() * 10000);
