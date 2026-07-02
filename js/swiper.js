@@ -666,12 +666,12 @@
 					t = false;
 				}
 				else if (is_document(_)) {
-					t=  has_class(_, name);
+					t = has_class(_, name);
 				}
 				else if (is_array(_)) {
 					_.forEach(function (item) {
-						if(item){
-							t= t && has_class(item, name);
+						if (item) {
+							t = t && has_class(item, name);
 						}
 					});
 				}
@@ -708,6 +708,7 @@
 		var base = {
 			rootEl: root.$el
 		};
+		var endx = 0;
 		var swiper_items;
 		Object.freeze(base);
 		if (conf && typeof conf === "object" && Object.keys(conf).length > 0) {
@@ -797,6 +798,7 @@
 			distance = isVertical ? def_config.height : def_config.width
 		}
 		setDistance();
+		var index = def_config.defaultIndex > def_config.num ? def_config.num - 1 : def_config.defaultIndex;
 		// 更新数据
 		function update_data() {
 			let _el = $(el);
@@ -804,20 +806,52 @@
 			let height = _el.css("height");
 			def_config.height = height;
 			def_config.width = width;
+			endx = isVertical ? index * def_config.height : index * def_config.width;
 			setDistance();
-
 		}
 		function init_swiper() {
 			var _target = {
 				index: 0,
 				translate: 0
 			}
-			var index = def_config.defaultIndex > def_config.num ? def_config.num - 1 : def_config.defaultIndex;
-			function prev(e) {
+			/** 自动播放 */
+			var timer = null;
+			var isIe = navigator.appVersion.indexOf("Trident") !== -1;
+			var isHover = false;
+
+			/** 触摸 - 已修复多点触控问题 */
+			var is_press = false;
+			var startx = 0;
+
+			var is_left = false;
+			var movex = 0;
+			var is_click = false;
+			var all_links = []; // 获取滑块里面的a标签
+			var images = new Array();
+			function __(e) {
 				if (e) {
 					e.stopPropagation();
 					e.preventDefault();
 				}
+			}
+			auto_play();
+			// 下一页
+			function next(e) {
+				__(e);
+				index += 1;
+				if (index > def_config.num) {
+					index = 0;
+					animate(index * distance, 0);
+					refresh_layout();
+					index = 1;
+					animate(index * distance, def_config.duration);
+				} else {
+					animate(index * distance, def_config.duration);
+				}
+				set_postion();
+			}
+			function prev(e) {
+				__(e);
 				index--;
 				if (index < 0) {
 					index = def_config.num;
@@ -873,8 +907,7 @@
 						_this.add(_vm);
 						var children = _this.children();
 						if (children.$el) {
-							// 监听索引变化
-							to_ref(_target, "index", function (e) {
+							to_ref(_target, "index", function (e) { // 监听索引变化
 								var _ridx = e[0] === def_config.num ? 0 : e[0];
 								def_config.realIndex = _ridx;
 								var sel_item = swiper_items.$el[_ridx];
@@ -894,24 +927,6 @@
 						}
 					});
 				}
-			}
-			// 下一页
-			function next(e) {
-				if (e) {
-					e.preventDefault();
-					e.stopPropagation();
-				}
-				index += 1;
-				if (index > def_config.num) {
-					index = 0;
-					animate(index * distance, 0);
-					refresh_layout();
-					index = 1;
-					animate(index * distance, def_config.duration);
-				} else {
-					animate(index * distance, def_config.duration);
-				}
-				set_postion();
 			}
 			/** 初始化布局 */
 			function __init__layout() {
@@ -957,12 +972,9 @@
 					}
 				}
 			}
-			/** 自动播放 */
-			var timer = null;
-			var isIe = navigator.appVersion.indexOf("Trident") !== -1;
+
 			function auto_play() {
 				if (isIe) {
-
 					return;
 				}
 				if (def_config.autoplay === false) {
@@ -980,8 +992,7 @@
 					}
 				}
 			}
-			var isHover = false;
-			auto_play();
+
 			function play_slide(play) {
 				if (!play) {
 					stop_play();
@@ -1004,14 +1015,8 @@
 				clearInterval(timer);
 				timer = null;
 			}
-			/** 触摸 - 已修复多点触控问题 */
 
-			var is_press = false;
-			var startx = 0;
-			var endx = 0;
-			var is_left = false;
-			var movex = 0;
-			var is_click = false;
+
 			function animate(dis, duration, ease, call) {
 				if (undefined === ease) {
 					ease = "ease";
@@ -1039,14 +1044,13 @@
 				return i;
 			}
 			function pre_defalut(e) {
+				e.stopPropagation();
 				if ((!def_config.is_mobile && e) || isVertical) {
 					e.preventDefault();
 				}
 			}
 
-			// 获取滑块里面的a标签
-			var all_links = [];
-			var images = new Array();
+
 			function get_links() {
 				swiper_items.each(function (e) {
 					var t_link = e;
@@ -1055,7 +1059,7 @@
 				});
 			}
 			function load_image(item, last) {
-				if($(item).hasClass("swiper-slide-active")){
+				if ($(item).hasClass("swiper-slide-active")) {
 					return;
 				}
 				images.push(item.getElementsByTagName("img"));
@@ -1120,7 +1124,7 @@
 				}
 				play_slide(false);
 				pre_defalut(e);
-				e.stopPropagation();
+
 				startTime = new Date().getTime();
 				var touch = def_config.is_mobile ? e.targetTouches[0] : e;
 				startx = touch[isVertical ? "clientY" : "clientX"];
@@ -1134,7 +1138,6 @@
 			}
 
 			function touch_move(e) {
-				e.stopPropagation();
 				pre_defalut(e);
 				if (!is_press) {
 					return;
@@ -1165,7 +1168,6 @@
 			function touch_end(e) {
 				prevent_link(is_click);
 				pre_defalut(e);
-				e.stopPropagation();
 				if (!isHover) {
 					play_slide(true);
 				}
