@@ -2,16 +2,151 @@
 branches: {
   }
 fileChange:
+  /css:
+    newFile: !uuid '8cb53b77358eb7d9c2091dc7f5bad6ebe348627f'
+    oldFile: !uuid '0df31bfde8047f95a2bb3b7e9b91e545c67a549e'
+  /css/style.css:
+    newFile: !uuid '204376207c6331879316460a969802d7b84f0259'
+    oldFile: !uuid '331f21b27f3262a547bc01860b6f183dcf519416'
+  /css/swiper.css:
+    newFile: !uuid '2f2e4f57118ed3a0e507bf9d19d97e8d3b71f65b'
+    oldFile: !uuid '1c20b23287cda78d85153d94aa82f564f0003db5'
+  /img:
+    newFile: !uuid '5dad889bd24bb8321795c2c9eac2382ce543a9ea'
+    oldFile: !uuid 'daa853c11d2b002bbe9e3bdfa2fd386124c8f3d1'
+  /img/1.webp:
+    newFile: !uuid '19bb603acebb3b5971b26f2a8ddbca4a5c6ff247'
+    oldFile: null
+  /img/10.webp:
+    newFile: !uuid 'fcaf4f6bcacd5df1e5e2073b3e453e6651a17a1a'
+    oldFile: null
+  /img/11.webp:
+    newFile: !uuid 'e770a9ed39c25800a86ac4e14dac2e4c3b0bd245'
+    oldFile: null
+  /img/12.webp:
+    newFile: !uuid 'a4fec61623396158d2d1b827ffff7237099591b9'
+    oldFile: null
+  /img/13.webp:
+    newFile: !uuid 'baa4b79296bbfba679fb7130b40f2766c886804e'
+    oldFile: null
+  /img/14.webp:
+    newFile: !uuid '3073db1bd064111dd1228682e20e6d5a501631e4'
+    oldFile: null
+  /img/15.webp:
+    newFile: !uuid '71bbe1af4c2e88adacab1e509d8a1a5a12fc0dc8'
+    oldFile: null
+  /img/16.webp:
+    newFile: !uuid '5e5660ced35478db649a9f9b486e324d85417962'
+    oldFile: null
+  /img/17.webp:
+    newFile: !uuid 'd749a03bde0cf3cd63248514168e8d290787f7b0'
+    oldFile: null
+  /img/18.webp:
+    newFile: !uuid '002fea198041f3cc8b368ad19a427b6b65630c18'
+    oldFile: null
+  /img/19.webp:
+    newFile: !uuid '8463e8e451c7895e925da2e0c9d1abe6d04db593'
+    oldFile: null
+  /img/2.webp:
+    newFile: !uuid '2490d45233674eaa3376dee0b13a6aee40b1e4e3'
+    oldFile: null
+  /img/20.webp:
+    newFile: !uuid 'a0a1df04628c57a44488e33f3e237806dadfa475'
+    oldFile: null
+  /img/21.webp:
+    newFile: !uuid '56e563c8095d70d40896b0daa76b7bd4b7bbeb9a'
+    oldFile: null
+  /img/22.webp:
+    newFile: !uuid 'dd6aa07bdfb1279e50fd9bbdf1a3460e83befd9f'
+    oldFile: null
+  /img/23.webp:
+    newFile: !uuid 'b46526bcf352f05583979072448d4feeef8403f8'
+    oldFile: null
+  /img/24.webp:
+    newFile: !uuid '50f5f2357bde4dd135ba47d37d3da6c56f6aecb5'
+    oldFile: null
+  /img/25.webp:
+    newFile: !uuid 'd8adeb028a402e0451902f1147b2c25a6d086af0'
+    oldFile: null
+  /img/26.webp:
+    newFile: !uuid '0905afb5f1ada011ed1e88b9abe1a69cef44b1f8'
+    oldFile: null
+  /img/27.webp:
+    newFile: !uuid '2261b5ed0d3f022576254b766c39c0070f246a6f'
+    oldFile: null
+  /img/28.webp:
+    newFile: !uuid '2118f87480a00724cf7e364fa70f83763cfc3576'
+    oldFile: null
+  /img/29.webp:
+    newFile: !uuid 'c85ce19769222e806dcbbbe7288bfb52b264cb59'
+    oldFile: null
+  /img/3.webp:
+    newFile: !uuid '55f85bb73e9f4b8c629045ba2eddd5c742764b88'
+    oldFile: null
+  /img/30.webp:
+    newFile: !uuid 'c5983099456614fd739cdfa183a2b8a7903a6bbb'
+    oldFile: null
+  /img/31.webp:
+    newFile: !uuid '7d00a20f6b7d2d5a7482ddbe30cb4f63739f31dd'
+    oldFile: null
+  /img/32.webp:
+    newFile: !uuid '03710bd58879a7b8a3a509ae05b5406d9cc06961'
+    oldFile: null
+  /img/33.webp:
+    newFile: !uuid 'cf6676c0a79f6f4b52d28ebcf3a5c7a32ba1a490'
+    oldFile: null
+  /img/34.webp:
+    newFile: !uuid 'dd10ee1385a7d78987e14b82ed147a5ce5a1a190'
+    oldFile: null
+  /img/35.webp:
+    newFile: !uuid '2d01d69c27effda5036d0e42c45e501a52f9a915'
+    oldFile: null
+  /img/36.webp:
+    newFile: !uuid 'a5763f3d1d9717c9c32575df59ead46073f7afc2'
+    oldFile: null
+  /img/4.webp:
+    newFile: !uuid '157a49be688d828066ed029329f96c6d6a2aaa10'
+    oldFile: null
+  /img/5.webp:
+    newFile: !uuid '20d799dc3f1e819c9c5e49f723bee3187dc07d83'
+    oldFile: null
+  /img/6.webp:
+    newFile: !uuid 'cae2cab23cb24357f013164eb3a446beed1a2d7c'
+    oldFile: null
+  /img/7.webp:
+    newFile: !uuid '90b2395854f2b9edd802e0fef5f1f2a688d50e2c'
+    oldFile: null
+  /img/8.webp:
+    newFile: !uuid '75e623bdc7f11408b820177bc77c5b3fd1b05ed2'
+    oldFile: null
+  /img/9.webp:
+    newFile: !uuid '39f623ebbab301b89549fde3e50e4bb13d785928'
+    oldFile: null
+  /img/banner01.jpg:
+    newFile: null
+    oldFile: !uuid '549d852ea96d00981a66486c54f81710d518cfb0'
+  /img/banner02.jpg:
+    newFile: null
+    oldFile: !uuid 'f6da7f85c488fb39792e2e17444dbea3e09aa1ce'
+  /img/banner03.jpg:
+    newFile: null
+    oldFile: !uuid '409acc76e6200187b2d1ade7c0ccbd96a1402cb0'
+  /img/banner04.jpg:
+    newFile: null
+    oldFile: !uuid '031d616f32fc67ddcef29694d60822ac599cca80'
+  /index.html:
+    newFile: !uuid 'f75cfea4bea0e6baed7dc6db97eb1a6704cf86a6'
+    oldFile: !uuid 'c95a5f2a39a81aa9b5d953788961c82cc1f541fb'
   /js:
-    newFile: !uuid '680dbb62a09a6f4a05517eb9792f6d64b46c4737'
-    oldFile: !uuid '0f1a260075736228e0f01837a3b3ee7cbd01432e'
+    newFile: !uuid '0e5be4d66692546157c7d8a924ef885aa44c3622'
+    oldFile: !uuid '680dbb62a09a6f4a05517eb9792f6d64b46c4737'
   /js/swiper.js:
-    newFile: !uuid 'd3c1c20f0d899817c552a5eaffa62b935cedcdc8'
-    oldFile: !uuid 'e1ab54fa23097cd2fe9c446fd7494a071d1d0298'
+    newFile: !uuid 'ca6b51d16d0ab1c5357dc626704080109513f072'
+    oldFile: !uuid 'd3c1c20f0d899817c552a5eaffa62b935cedcdc8'
   /js/swiper.min.js:
-    newFile: !uuid '4bce11ed329fd5c4b54bc94ccdede36a67ed3fbd'
-    oldFile: !uuid 'ba3ff87e1fd83030feb333a75736eb1c87ba29e0'
-gitCommitId: !uuid '2dc4b2687b81db1c4a5cc83aeef964df40c2d2fb'
+    newFile: !uuid 'b02b2080f61522c6f9ff81abc24a0929966a04e5'
+    oldFile: !uuid '4bce11ed329fd5c4b54bc94ccdede36a67ed3fbd'
+gitCommitId: !uuid 'cf1014f7039f470a2d9f3300934641a1d4ab3e07'
 renames: {
   }
-revisionId: 155
+revisionId: 156
