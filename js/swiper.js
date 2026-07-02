@@ -178,6 +178,8 @@
 					_el = len === 1 ? els[0] : els;
 				}
 			}
+		} else if (is_window(o)) {
+			_el = o;
 		} else {
 			_el = o.$el;
 		}
@@ -574,6 +576,10 @@
 				}
 				var t = this;
 				var el = t.$el;
+
+				if (is_window(el)) {
+					el = window;
+				}
 				t.bind_event(ID_VERSION, el, function (e) {
 					if (!e) {
 						console.warn("无法为对象", e, "绑定事件");
@@ -603,6 +609,9 @@
 						}
 					}
 				}
+				else if (is_window(el)) {
+					call(window);
+				}
 			},
 			off: function (event, fun) {
 				var _events = this.events;
@@ -610,7 +619,7 @@
 					return;
 				}
 				this.bind_event(ID_VERSION, this.$el, function (el) { // 需要解决一下解绑后的句柄
-					_events.forEach(function (func, index) {
+					_events.forEach(function (_func, index) {
 						el.removeEventListener(event, fun, {
 							passive: false,
 							capture: true
@@ -822,7 +831,6 @@
 			/** 触摸 - 已修复多点触控问题 */
 			var is_press = false;
 			var startx = 0;
-
 			var is_left = false;
 			var movex = 0;
 			var is_click = false;
@@ -835,33 +843,41 @@
 				}
 			}
 			auto_play();
-			// 下一页
-			function next(e) {
+			function next(e) { // 下一页
 				__(e);
 				index += 1;
-				if (index > def_config.num) {
-					index = 0;
-					animate(index * distance, 0);
-					refresh_layout();
-					index = 1;
-					animate(index * distance, def_config.duration);
+				if (def_config.loop) {
+					if (index > def_config.num) {
+						index = 0;
+						animate(index * distance, 0);
+						refresh_layout();
+						index = 1;
+					}
 				} else {
-					animate(index * distance, def_config.duration);
+					if (index >= def_config.num) {
+						index = 0;
+					}
 				}
+				animate(index * distance, def_config.duration);
 				set_postion();
 			}
 			function prev(e) {
 				__(e);
 				index--;
-				if (index < 0) {
-					index = def_config.num;
-					animate(index * distance, 0);
-					refresh_layout();
-					index = def_config.num - 1;
-					animate(index * distance, def_config.duration);
+				if (def_config.loop) {
+					if (index < 0) {
+						index = def_config.num;
+						animate(index * distance, 0);
+						refresh_layout();
+						index = def_config.num - 1;
+
+					}
 				} else {
-					animate(index * distance, def_config.duration);
+					if (index < 0) {
+						index = def_config.num - 1;
+					}
 				}
+				animate(index * distance, def_config.duration);
 				set_postion();
 			}
 			// 设置页码
@@ -875,6 +891,7 @@
 					_el = b.el;
 					clickable = b.click;
 				}
+
 				if (_el) {
 					$(_el).has(function () {
 						var idx = 0,
@@ -1061,10 +1078,13 @@
 			function load_image(item, last) {
 				if ($(item).hasClass("swiper-slide-active")) {
 					return;
+				} else {
+					$(item).addClass("swiper-slide-active");
 				}
 				images.push(item.getElementsByTagName("img"));
-				if (last) {
+				if (last && def_config.loop) {
 					images.push(swiper_items.$el[def_config.num].getElementsByTagName("img"));
+					$(swiper_items.$el[def_config.num]).addClass("swiper-slide-active");
 				}
 				if (images && images.length > 0) {
 					var prop = def_config.lazy && def_config.lazy.prop ? def_config.lazy.prop : "data-src";
@@ -1083,10 +1103,7 @@
 						}
 					}
 				}
-				$(item).addClass("swiper-slide-active");
-				if (last) {
-					$(swiper_items.$el[def_config.num]).addClass("swiper-slide-active");
-				}
+
 			}
 			// 阻止a标签跳转
 			function prevent_link(prevent) {
@@ -1142,27 +1159,33 @@
 				if (!is_press) {
 					return;
 				}
-				// 多点触控：找到与初始触点匹配的触点，如果找不到则忽略
-				var x = def_config.is_mobile ? e.changedTouches[0][isVertical ? "clientY" : "clientX"] : e[isVertical ? "clientY" : "clientX"];
+				var x = def_config.is_mobile ? e.changedTouches[0][isVertical ? "clientY" : "clientX"] : e[isVertical ? "clientY" : "clientX"]; // 多点触控：找到与初始触点匹配的触点，如果找不到则忽略
 				movex = x - startx - endx;
 				_target.translate = movex;
 				is_left = (x - startx) < 0;
-				var max_translate = distance * (def_config.num);
+				var max_translate = distance * (def_config.loop ? def_config.num : def_config.num - 1);
 				is_click = Math.abs(x - startx) >= 20;
 				var bound = Math.abs(movex) > max_translate;// 边界判定
-				if (bound) {
-					var v = 0;
-					index = v;
-					endx = v;
-					animate(v, 0);
-				} else if (movex > 0) {
-					index = def_config.num;
-					endx = max_translate;
-					animate(-movex, 0);
+				if (def_config.loop) {
+					if (bound) {
+						var v = 0;
+						index = v;
+						endx = v;
+						animate(v, 0);
+					} else if (movex > 0) {
+						index = def_config.num;
+						endx = max_translate;
+						animate(-movex, 0);
+					} else {
+						index = compute_index(movex);
+					}
 				} else {
-					animate(-movex, 0);
 					index = compute_index(movex);
+					if (Math.abs(movex) > max_translate) {
+						index = def_config.num - 1;
+					}
 				}
+				animate(-movex, 0);
 			}
 
 			function touch_end(e) {
@@ -1179,10 +1202,8 @@
 				animate(index * distance, def_config.duration, def_config.ease);
 			}
 			function __init__touch() {
-				if (true === def_config.disabvarouch) {
-					return;
-				} else {
-					var slider_el = $(el).children(".swiper-slider");
+				var slider_el = $(el).children(".swiper-slider");
+				if (!def_config.disabvarouch) {
 					slider_el.on(TOUCH_EVENT['down'], touch_start);
 					def_config.is_mobile ? slider_el.on(TOUCH_EVENT["up"], touch_end) : $(document).on(TOUCH_EVENT["up"], touch_end);
 				}
@@ -1192,9 +1213,7 @@
 			get_links();
 			init_nav();
 			auto_play();
-			if (false === def_config.disabvarouch) {
-				__init__touch();
-			}
+			__init__touch();
 			return {
 				to: function () {
 					animate(index * distance, 0);
@@ -1203,7 +1222,7 @@
 		}
 		var inits = new init_swiper(def_config);
 		var __time = null;
-		window.addEventListener("resize", function () {
+		$(window).on("resize", () => {
 			clearTimeout(__time);
 			__time = setTimeout(function () {
 				_j.set_children_layout();

@@ -22,6 +22,7 @@ body {
     width: 100%;
     justify-content: center;
     border-radius: 8px;
+    color: #FFFFFF;
 }
 
 .demo01,
@@ -51,7 +52,7 @@ body {
     align-items: center;
     margin-left: auto;
     margin-right: auto;
-    width: fit-content!important;
+    width: fit-content !important;
 }
 
 .swiper-items img {
@@ -77,8 +78,27 @@ body {
 }
 
 .grid-layout {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(1, 2fr);
-    gap: 10px;
+    display: flex;
+    /* grid-area: span 2;
+    grid-template-columns: repeat(4, 2fr);
+    grid-template-rows: repeat(3, 3fr);
+    gap: 2%;*/
+    gap: 2%;
+    flex-wrap: wrap;
+}
+
+.grid-layout .picture-container>img {
+    width: auto;
+    height: 100%;
+}
+
+.picture-container {
+    width: 32.0%;
+    padding: 1%;
+    box-sizing: border-box;
+    height: 32.0%;
+    /* height: 30%; */
+    background-color: rgb(59, 59, 59);
+    position: relative;
+    overflow: hidden;
 }
