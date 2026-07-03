@@ -1222,7 +1222,7 @@
 		}
 		var inits = new init_swiper(def_config);
 		var __time = null;
-		$(window).on("resize", () => {
+		$(window).on("resize", function () {
 			clearTimeout(__time);
 			__time = setTimeout(function () {
 				_j.set_children_layout();
