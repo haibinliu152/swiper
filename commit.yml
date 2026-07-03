@@ -2,151 +2,238 @@
 branches: {
   }
 fileChange:
-  /css:
-    newFile: !uuid '8cb53b77358eb7d9c2091dc7f5bad6ebe348627f'
-    oldFile: !uuid '0df31bfde8047f95a2bb3b7e9b91e545c67a549e'
-  /css/style.css:
-    newFile: !uuid '204376207c6331879316460a969802d7b84f0259'
-    oldFile: !uuid '331f21b27f3262a547bc01860b6f183dcf519416'
-  /css/swiper.css:
-    newFile: !uuid '2f2e4f57118ed3a0e507bf9d19d97e8d3b71f65b'
-    oldFile: !uuid '1c20b23287cda78d85153d94aa82f564f0003db5'
   /img:
-    newFile: !uuid '5dad889bd24bb8321795c2c9eac2382ce543a9ea'
-    oldFile: !uuid 'daa853c11d2b002bbe9e3bdfa2fd386124c8f3d1'
+    newFile: !uuid '1c3e3ced52e66c32100a7339648db8ec8f6fa81e'
+    oldFile: !uuid '5dad889bd24bb8321795c2c9eac2382ce543a9ea'
+  /img/1.jpg:
+    newFile: !uuid '05dd2b644b1a9fe28113f38727fcb6a0b755cf6e'
+    oldFile: null
   /img/1.webp:
-    newFile: !uuid '19bb603acebb3b5971b26f2a8ddbca4a5c6ff247'
+    newFile: null
+    oldFile: !uuid '19bb603acebb3b5971b26f2a8ddbca4a5c6ff247'
+  /img/10.jpg:
+    newFile: !uuid '2e979f56b80105310a1468c4f1f1c8ad761bcf64'
     oldFile: null
   /img/10.webp:
-    newFile: !uuid 'fcaf4f6bcacd5df1e5e2073b3e453e6651a17a1a'
+    newFile: null
+    oldFile: !uuid 'fcaf4f6bcacd5df1e5e2073b3e453e6651a17a1a'
+  /img/11.jpg:
+    newFile: !uuid '0e0230319fd7581a3c6b31aa7bbb9218843fb499'
     oldFile: null
   /img/11.webp:
-    newFile: !uuid 'e770a9ed39c25800a86ac4e14dac2e4c3b0bd245'
+    newFile: null
+    oldFile: !uuid 'e770a9ed39c25800a86ac4e14dac2e4c3b0bd245'
+  /img/12.jpg:
+    newFile: !uuid '2a0f314293723f3ed737e8682aa6c6b3fcea67de'
     oldFile: null
   /img/12.webp:
-    newFile: !uuid 'a4fec61623396158d2d1b827ffff7237099591b9'
+    newFile: null
+    oldFile: !uuid 'a4fec61623396158d2d1b827ffff7237099591b9'
+  /img/13.jpg:
+    newFile: !uuid '12db4a49f1894438b58fbdd580c8c5e4b11ebebd'
     oldFile: null
   /img/13.webp:
-    newFile: !uuid 'baa4b79296bbfba679fb7130b40f2766c886804e'
+    newFile: null
+    oldFile: !uuid 'baa4b79296bbfba679fb7130b40f2766c886804e'
+  /img/14.jpg:
+    newFile: !uuid 'ca1f241ca8b32c46d6ff37ba8c1bad54c946a9ce'
     oldFile: null
   /img/14.webp:
-    newFile: !uuid '3073db1bd064111dd1228682e20e6d5a501631e4'
+    newFile: null
+    oldFile: !uuid '3073db1bd064111dd1228682e20e6d5a501631e4'
+  /img/15.jpg:
+    newFile: !uuid 'fec9b31dcbce3d79021dc21ae2cb5e7145aed91e'
     oldFile: null
   /img/15.webp:
-    newFile: !uuid '71bbe1af4c2e88adacab1e509d8a1a5a12fc0dc8'
+    newFile: null
+    oldFile: !uuid '71bbe1af4c2e88adacab1e509d8a1a5a12fc0dc8'
+  /img/16.jpg:
+    newFile: !uuid 'a864dce859d0f489eeb5cb12f389251e454feaf8'
     oldFile: null
   /img/16.webp:
-    newFile: !uuid '5e5660ced35478db649a9f9b486e324d85417962'
+    newFile: null
+    oldFile: !uuid '5e5660ced35478db649a9f9b486e324d85417962'
+  /img/17.jpg:
+    newFile: !uuid '642485a1a13fa3fd2162ead2f0719727cd735ffa'
     oldFile: null
   /img/17.webp:
-    newFile: !uuid 'd749a03bde0cf3cd63248514168e8d290787f7b0'
+    newFile: null
+    oldFile: !uuid 'd749a03bde0cf3cd63248514168e8d290787f7b0'
+  /img/18.jpg:
+    newFile: !uuid '1f66a3ec947c6bd83bd34fe785d588d750e0787f'
     oldFile: null
   /img/18.webp:
-    newFile: !uuid '002fea198041f3cc8b368ad19a427b6b65630c18'
+    newFile: null
+    oldFile: !uuid '002fea198041f3cc8b368ad19a427b6b65630c18'
+  /img/19.jpg:
+    newFile: !uuid 'cd84b3691e3b88ab90f1099f5b40b7eee38adb89'
     oldFile: null
   /img/19.webp:
-    newFile: !uuid '8463e8e451c7895e925da2e0c9d1abe6d04db593'
+    newFile: null
+    oldFile: !uuid '8463e8e451c7895e925da2e0c9d1abe6d04db593'
+  /img/2.jpg:
+    newFile: !uuid 'f586d50d8062a35c50a5c78ae061539f82b2580d'
     oldFile: null
   /img/2.webp:
-    newFile: !uuid '2490d45233674eaa3376dee0b13a6aee40b1e4e3'
+    newFile: null
+    oldFile: !uuid '2490d45233674eaa3376dee0b13a6aee40b1e4e3'
+  /img/20.jpg:
+    newFile: !uuid '2b70ad02063247380009b6dc430a410621a8cac0'
     oldFile: null
   /img/20.webp:
-    newFile: !uuid 'a0a1df04628c57a44488e33f3e237806dadfa475'
+    newFile: null
+    oldFile: !uuid 'a0a1df04628c57a44488e33f3e237806dadfa475'
+  /img/21.jpg:
+    newFile: !uuid '0bd996ab5fad32166376449e9fdea5accfc2a363'
     oldFile: null
   /img/21.webp:
-    newFile: !uuid '56e563c8095d70d40896b0daa76b7bd4b7bbeb9a'
+    newFile: null
+    oldFile: !uuid '56e563c8095d70d40896b0daa76b7bd4b7bbeb9a'
+  /img/22.jpg:
+    newFile: !uuid '1c0dcc0c72ff16ca2d389fdfb5f1586ec9bf8c1b'
     oldFile: null
   /img/22.webp:
-    newFile: !uuid 'dd6aa07bdfb1279e50fd9bbdf1a3460e83befd9f'
+    newFile: null
+    oldFile: !uuid 'dd6aa07bdfb1279e50fd9bbdf1a3460e83befd9f'
+  /img/23.jpg:
+    newFile: !uuid 'e1cb52ca6eb74adb11dec4fe7e80db2fa9c6101e'
     oldFile: null
   /img/23.webp:
-    newFile: !uuid 'b46526bcf352f05583979072448d4feeef8403f8'
+    newFile: null
+    oldFile: !uuid 'b46526bcf352f05583979072448d4feeef8403f8'
+  /img/24.jpg:
+    newFile: !uuid 'a172fd39bc0d3b4f8771c3cc0c48ec6902365de3'
     oldFile: null
   /img/24.webp:
-    newFile: !uuid '50f5f2357bde4dd135ba47d37d3da6c56f6aecb5'
+    newFile: null
+    oldFile: !uuid '50f5f2357bde4dd135ba47d37d3da6c56f6aecb5'
+  /img/25.jpg:
+    newFile: !uuid 'bfc6ac025626622947678cc0117b6108c8fefb01'
     oldFile: null
   /img/25.webp:
-    newFile: !uuid 'd8adeb028a402e0451902f1147b2c25a6d086af0'
+    newFile: null
+    oldFile: !uuid 'd8adeb028a402e0451902f1147b2c25a6d086af0'
+  /img/26.jpg:
+    newFile: !uuid 'e560cd86dfda46eb940781e152ae2ab8ca3299de'
     oldFile: null
   /img/26.webp:
-    newFile: !uuid '0905afb5f1ada011ed1e88b9abe1a69cef44b1f8'
+    newFile: null
+    oldFile: !uuid '0905afb5f1ada011ed1e88b9abe1a69cef44b1f8'
+  /img/27.jpg:
+    newFile: !uuid 'c7f99e2ad6a817fee6249beba5704fc012109b6a'
     oldFile: null
   /img/27.webp:
-    newFile: !uuid '2261b5ed0d3f022576254b766c39c0070f246a6f'
+    newFile: null
+    oldFile: !uuid '2261b5ed0d3f022576254b766c39c0070f246a6f'
+  /img/28.jpg:
+    newFile: !uuid '0222c02fbd68b3600b1747ac4d2f36226ee13348'
     oldFile: null
   /img/28.webp:
-    newFile: !uuid '2118f87480a00724cf7e364fa70f83763cfc3576'
+    newFile: null
+    oldFile: !uuid '2118f87480a00724cf7e364fa70f83763cfc3576'
+  /img/29.jpg:
+    newFile: !uuid '1e2c03addd3bd28263ca3adaf21abfd9ba495cd1'
     oldFile: null
   /img/29.webp:
-    newFile: !uuid 'c85ce19769222e806dcbbbe7288bfb52b264cb59'
+    newFile: null
+    oldFile: !uuid 'c85ce19769222e806dcbbbe7288bfb52b264cb59'
+  /img/3.jpg:
+    newFile: !uuid 'dad686b51eb83a5dbe7c7fe08f30a073120c5a81'
     oldFile: null
   /img/3.webp:
-    newFile: !uuid '55f85bb73e9f4b8c629045ba2eddd5c742764b88'
+    newFile: null
+    oldFile: !uuid '55f85bb73e9f4b8c629045ba2eddd5c742764b88'
+  /img/30.jpg:
+    newFile: !uuid '55e8f2fe16e85062a812e12f24ae9d34ecbbe46f'
     oldFile: null
   /img/30.webp:
-    newFile: !uuid 'c5983099456614fd739cdfa183a2b8a7903a6bbb'
+    newFile: null
+    oldFile: !uuid 'c5983099456614fd739cdfa183a2b8a7903a6bbb'
+  /img/31.jpg:
+    newFile: !uuid 'e8616a9f123537995e1609a0f304be149536b9d3'
     oldFile: null
   /img/31.webp:
-    newFile: !uuid '7d00a20f6b7d2d5a7482ddbe30cb4f63739f31dd'
+    newFile: null
+    oldFile: !uuid '7d00a20f6b7d2d5a7482ddbe30cb4f63739f31dd'
+  /img/32.jpg:
+    newFile: !uuid 'c20d9123260dc6f9f1097b6706be89aef457e46f'
     oldFile: null
   /img/32.webp:
-    newFile: !uuid '03710bd58879a7b8a3a509ae05b5406d9cc06961'
+    newFile: null
+    oldFile: !uuid '03710bd58879a7b8a3a509ae05b5406d9cc06961'
+  /img/33.jpg:
+    newFile: !uuid '6ffe95b94c1779128ebff0ff657597b92de5e33f'
     oldFile: null
   /img/33.webp:
-    newFile: !uuid 'cf6676c0a79f6f4b52d28ebcf3a5c7a32ba1a490'
+    newFile: null
+    oldFile: !uuid 'cf6676c0a79f6f4b52d28ebcf3a5c7a32ba1a490'
+  /img/34.jpg:
+    newFile: !uuid '4721fed1a1bb986b2dccb60ec460d719f1b343f0'
     oldFile: null
   /img/34.webp:
-    newFile: !uuid 'dd10ee1385a7d78987e14b82ed147a5ce5a1a190'
+    newFile: null
+    oldFile: !uuid 'dd10ee1385a7d78987e14b82ed147a5ce5a1a190'
+  /img/35.jpg:
+    newFile: !uuid '27efd19b568ea9d4b98379ef3a76e68d2a495b13'
     oldFile: null
   /img/35.webp:
-    newFile: !uuid '2d01d69c27effda5036d0e42c45e501a52f9a915'
+    newFile: null
+    oldFile: !uuid '2d01d69c27effda5036d0e42c45e501a52f9a915'
+  /img/36.jpg:
+    newFile: !uuid '37406de423ef57a02386968d134602140525ba6d'
     oldFile: null
   /img/36.webp:
-    newFile: !uuid 'a5763f3d1d9717c9c32575df59ead46073f7afc2'
+    newFile: null
+    oldFile: !uuid 'a5763f3d1d9717c9c32575df59ead46073f7afc2'
+  /img/4.jpg:
+    newFile: !uuid '3c8be04aa3781502a421359caa13ea22c772397f'
     oldFile: null
   /img/4.webp:
-    newFile: !uuid '157a49be688d828066ed029329f96c6d6a2aaa10'
+    newFile: null
+    oldFile: !uuid '157a49be688d828066ed029329f96c6d6a2aaa10'
+  /img/5.jpg:
+    newFile: !uuid 'd4c18532c35c3c76c6b935b00c8f973c281ef839'
     oldFile: null
   /img/5.webp:
-    newFile: !uuid '20d799dc3f1e819c9c5e49f723bee3187dc07d83'
+    newFile: null
+    oldFile: !uuid '20d799dc3f1e819c9c5e49f723bee3187dc07d83'
+  /img/6.jpg:
+    newFile: !uuid '4bc9eebd41466caf044a16e27c39c48c1f2bb94a'
     oldFile: null
   /img/6.webp:
-    newFile: !uuid 'cae2cab23cb24357f013164eb3a446beed1a2d7c'
+    newFile: null
+    oldFile: !uuid 'cae2cab23cb24357f013164eb3a446beed1a2d7c'
+  /img/7.jpg:
+    newFile: !uuid 'aceebdaf71c5a1b86cf6fcd2c3a08e563e5f2f59'
     oldFile: null
   /img/7.webp:
-    newFile: !uuid '90b2395854f2b9edd802e0fef5f1f2a688d50e2c'
+    newFile: null
+    oldFile: !uuid '90b2395854f2b9edd802e0fef5f1f2a688d50e2c'
+  /img/8.jpg:
+    newFile: !uuid '57dd44b1d8d4020cb5258cce80707e23cce1874b'
     oldFile: null
   /img/8.webp:
-    newFile: !uuid '75e623bdc7f11408b820177bc77c5b3fd1b05ed2'
+    newFile: null
+    oldFile: !uuid '75e623bdc7f11408b820177bc77c5b3fd1b05ed2'
+  /img/9.jpg:
+    newFile: !uuid '69ecbe2d2821ddb66cac0883fdf388dab39573b0'
     oldFile: null
   /img/9.webp:
-    newFile: !uuid '39f623ebbab301b89549fde3e50e4bb13d785928'
-    oldFile: null
-  /img/banner01.jpg:
     newFile: null
-    oldFile: !uuid '549d852ea96d00981a66486c54f81710d518cfb0'
-  /img/banner02.jpg:
-    newFile: null
-    oldFile: !uuid 'f6da7f85c488fb39792e2e17444dbea3e09aa1ce'
-  /img/banner03.jpg:
-    newFile: null
-    oldFile: !uuid '409acc76e6200187b2d1ade7c0ccbd96a1402cb0'
-  /img/banner04.jpg:
-    newFile: null
-    oldFile: !uuid '031d616f32fc67ddcef29694d60822ac599cca80'
+    oldFile: !uuid '39f623ebbab301b89549fde3e50e4bb13d785928'
   /index.html:
-    newFile: !uuid 'f75cfea4bea0e6baed7dc6db97eb1a6704cf86a6'
-    oldFile: !uuid 'c95a5f2a39a81aa9b5d953788961c82cc1f541fb'
+    newFile: !uuid '2bab7e282a9ac340b7838cf19f8582425214da1c'
+    oldFile: !uuid 'f75cfea4bea0e6baed7dc6db97eb1a6704cf86a6'
   /js:
-    newFile: !uuid '0e5be4d66692546157c7d8a924ef885aa44c3622'
-    oldFile: !uuid '680dbb62a09a6f4a05517eb9792f6d64b46c4737'
+    newFile: !uuid '0c3b82f9ec9ebbbbd7636d45da11053f91093da3'
+    oldFile: !uuid '0e5be4d66692546157c7d8a924ef885aa44c3622'
   /js/swiper.js:
-    newFile: !uuid 'ca6b51d16d0ab1c5357dc626704080109513f072'
-    oldFile: !uuid 'd3c1c20f0d899817c552a5eaffa62b935cedcdc8'
+    newFile: !uuid 'b9a0db20eb4e7972f539dbba9d614a10ca21d89e'
+    oldFile: !uuid 'ca6b51d16d0ab1c5357dc626704080109513f072'
   /js/swiper.min.js:
-    newFile: !uuid 'b02b2080f61522c6f9ff81abc24a0929966a04e5'
-    oldFile: !uuid '4bce11ed329fd5c4b54bc94ccdede36a67ed3fbd'
-gitCommitId: !uuid 'cf1014f7039f470a2d9f3300934641a1d4ab3e07'
+    newFile: !uuid '24491524fccdec21ebc17749a6da0eb6e80883ae'
+    oldFile: !uuid 'b02b2080f61522c6f9ff81abc24a0929966a04e5'
+gitCommitId: !uuid 'a0da5c50f7318d3c46ece01d9a67ed832d250235'
 renames: {
   }
-revisionId: 156
+revisionId: 157
