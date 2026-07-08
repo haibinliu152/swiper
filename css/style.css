@@ -86,7 +86,11 @@ body {
     gap: 2%;
     flex-wrap: wrap;
 }
-
+.grid-layout .picture-container>a{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
 .grid-layout .picture-container>img {
     width: auto;
     height: 100%;

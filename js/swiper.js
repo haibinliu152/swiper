@@ -697,6 +697,7 @@
 				accelerate: false, //禁用硬件加速
 				direction: "horizontal", // 播放方向
 				ease: "ease", // 过渡动画
+				freeMode: false, // 惯性滑动
 				disabvarouch: false, // 关闭触摸
 				autoplay: true, // 自动播放
 				lazy: undefined, // 懒加载 {prop:xx,enable:boolean}
@@ -743,7 +744,7 @@
 			"move": def_config.is_mobile ? "touchmove" : "pointermove",
 			"up": def_config.is_mobile ? "touchend" : "pointerup"
 		};
-
+		var gutter = def_config.gutter || 0;
 		var j = (function () {
 			var slider = $('<div class="swiper-slider"></div>');
 			var laout_style = def_config.direction === "horizontal" ? 0 : 1;
@@ -767,18 +768,30 @@
 			$(el).children(".swiper-wrapper").add(slider); // 删除原来的
 			function set_children_layout() {
 				root_size = get_style($(el));
+				var lay_opt = undefined;
 				if (laout_style === 1) { // 判断方向
 					style_config.width = root_size.width + "px";
 					style_config.height = (root_size.height * size) + "px";
-					$(el).addClass(def_config.direction || "vertical");
+					lay_opt = {
+						width: (root_size.width) + "px",
+						height: (root_size.height - gutter) + "px",
+						marginTop: gutter / 2 + "px",
+						marginBottom: gutter / 2 + "px"
+					};
+					$(el).addClass(def_config.direction || "vertical");// 垂直方向
 				} else if (laout_style === 0) {
 					style_config.height = root_size.height + "px";
 					style_config.width = (root_size.width * size) + "px";
-					$(el).addClass(def_config.direction || 'horizontal');
+					lay_opt = {
+						width: (root_size.width - gutter) + "px",
+						height: (root_size.height) + "px",
+						marginLeft: gutter / 2 + "px",
+						marginRight: gutter / 2 + "px"
+					};
+					$(el).addClass(def_config.direction || 'horizontal');// 水平方向
 				}
-				swiper_items = $(el).children(".swiper-items").css({
-					width: root_size.width + "px",
-					height: root_size.height + "px"
+				swiper_items = $(el).children(".swiper-items").css(lay_opt).css({
+					boxSizing: "border-box"
 				});
 				def_config.width = root_size.width;
 				def_config.height = root_size.height;
@@ -827,13 +840,15 @@
 			var timer = null;
 			var isIe = navigator.appVersion.indexOf("Trident") !== -1;
 			var isHover = false;
-
 			/** 触摸 - 已修复多点触控问题 */
 			var is_press = false;
 			var startx = 0;
 			var is_left = false;
 			var movex = 0;
 			var is_click = false;
+			var last_touch_time = 0;
+			var last_touch_pos = 0;
+			var flick_velocity = 0;
 			var all_links = []; // 获取滑块里面的a标签
 			var images = new Array();
 			function __(e) {
@@ -891,7 +906,19 @@
 					_el = b.el;
 					clickable = b.click;
 				}
-
+				var __set_index = function (e) {
+					if (!e) {
+						return 0;
+					}
+					var _ridx = e[0] === def_config.num ? 0 : e[0];
+					def_config.realIndex = _ridx;
+					var sel_item = swiper_items.$el[_ridx];
+					var isLast = _ridx === 0;
+					if (def_config.lazy && def_config.lazy.enable) {
+						load_image(sel_item, isLast);
+					}
+					return _ridx;
+				}
 				if (_el) {
 					$(_el).has(function () {
 						var idx = 0,
@@ -925,10 +952,7 @@
 						var children = _this.children();
 						if (children.$el) {
 							to_ref(_target, "index", function (e) { // 监听索引变化
-								var _ridx = e[0] === def_config.num ? 0 : e[0];
-								def_config.realIndex = _ridx;
-								var sel_item = swiper_items.$el[_ridx];
-								var isLast = _ridx === 0;
+								var _ridx = __set_index(e);
 								var i = 0;
 								for (; i < len; i++) {
 									if (i === _ridx) {
@@ -937,11 +961,12 @@
 										children.$el[i].classList.remove(active);
 									}
 								}
-								if (def_config.lazy && def_config.lazy.enable) {
-									load_image(sel_item, isLast);
-								}
 							});
 						}
+					});
+				} else {
+					to_ref(_target, "index", function (e) { // 监听索引变化
+						__set_index(e);
 					});
 				}
 			}
@@ -1066,8 +1091,6 @@
 					e.preventDefault();
 				}
 			}
-
-
 			function get_links() {
 				swiper_items.each(function (e) {
 					var t_link = e;
@@ -1153,7 +1176,6 @@
 				});
 				is_click = false;
 			}
-
 			function touch_move(e) {
 				pre_defalut(e);
 				if (!is_press) {
@@ -1162,6 +1184,15 @@
 				var x = def_config.is_mobile ? e.changedTouches[0][isVertical ? "clientY" : "clientX"] : e[isVertical ? "clientY" : "clientX"]; // 多点触控：找到与初始触点匹配的触点，如果找不到则忽略
 				movex = x - startx - endx;
 				_target.translate = movex;
+				var _now = (new Date()).getTime();
+				if (last_touch_time > 0) {
+					var _dt = _now - last_touch_time;
+					if (_dt > 0) {
+						flick_velocity = (x - last_touch_pos) / _dt;
+					}
+				}
+				last_touch_time = _now;
+				last_touch_pos = x;
 				is_left = (x - startx) < 0;
 				var max_translate = distance * (def_config.loop ? def_config.num : def_config.num - 1);
 				is_click = Math.abs(x - startx) >= 20;
@@ -1198,8 +1229,44 @@
 					return;
 				}
 				is_press = false;
-				set_postion();
-				animate(index * distance, def_config.duration, def_config.ease);
+				if (def_config.freeMode) {
+					var momentum_dist = 0;
+					var _now = (new Date()).getTime();
+					var _dt = _now - last_touch_time;
+					if (_dt > 0 && _dt < 300 && Math.abs(flick_velocity) > 0.05) {
+						momentum_dist = flick_velocity * 400;
+					}
+					var adjusted_movex = movex + momentum_dist;
+					var max_translate = distance * (def_config.loop ? def_config.num : def_config.num - 1);
+					if (def_config.loop) {
+						if (adjusted_movex > 0) {
+							adjusted_movex = 0;
+							index = 0;
+						} else if (Math.abs(adjusted_movex) > max_translate) {
+							adjusted_movex = -max_translate;
+							index = def_config.num;
+						} else {
+							index = compute_index(adjusted_movex);
+						}
+					} else {
+						if (adjusted_movex > 0) {
+							adjusted_movex = 0;
+							index = 0;
+						} else if (Math.abs(adjusted_movex) > max_translate) {
+							adjusted_movex = -max_translate;
+							index = def_config.num - 1;
+						} else {
+							index = compute_index(adjusted_movex);
+						}
+					}
+					endx = index * distance;
+					_target.index = index;
+					_target.translate = -endx;
+					animate(index * distance, 500);
+				} else {
+					set_postion();
+					animate(index * distance, def_config.duration, def_config.ease);
+				}
 			}
 			function __init__touch() {
 				var slider_el = $(el).children(".swiper-slider");
