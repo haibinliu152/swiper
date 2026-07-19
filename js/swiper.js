@@ -1058,7 +1058,6 @@
 				timer = null;
 			}
 
-
 			function animate(dis, duration, ease, call) {
 				if (undefined === ease) {
 					ease = "ease";
@@ -1126,7 +1125,6 @@
 						}
 					}
 				}
-
 			}
 			// 阻止a标签跳转
 			function prevent_link(prevent) {
@@ -1176,6 +1174,7 @@
 				});
 				is_click = false;
 			}
+			var edge = 0;
 			function touch_move(e) {
 				pre_defalut(e);
 				if (!is_press) {
@@ -1215,8 +1214,18 @@
 					if (Math.abs(movex) > max_translate) {
 						index = def_config.num - 1;
 					}
+					if (bound) {
+						edge = -0.8;
+						
+					} else if (movex > 0) {
+						edge = 0.8;
+						index=0;
+					} else {
+						edge = 0;
+					}
 				}
-				animate(-movex, 0);
+				var offset_x = (Math.abs(movex) - index * (distance)) * edge;
+				animate(-(movex - (offset_x)), 0);
 			}
 
 			function touch_end(e) {
@@ -1228,6 +1237,7 @@
 				if (!is_press) {
 					return;
 				}
+				edge = 0;
 				is_press = false;
 				if (def_config.freeMode) {
 					var momentum_dist = 0;
