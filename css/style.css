@@ -28,6 +28,8 @@ body {
 .demo01,
 .demo02 {
     width: 100vw;
+    max-width: 1200px;
+    max-height: 640px;
     height: 100vh;
     background-color: transparent;
     position: relative;
