@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh">
 
@@ -14,6 +15,7 @@
 
 <body style="display: flex;align-items: center;justify-content: center;height: 100vh;">
 	<div class="app">
+		<p id="info">消息</p>
 		<div class="demo01 simple-swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-items grid-layout"> </div>
@@ -25,6 +27,7 @@
 			</span>
 			<span id="next" class="btn btn-next"> </span>
 		</div>
+		
 	</div>
 	</div>
 
@@ -35,16 +38,17 @@
 			group.push("img/" + i + ".jpg");
 		}
 		var items = document.querySelectorAll(".swiper-items");
+		var info = document.querySelector("#info");
 		var c = 12;
 		function showMsg(i) {
-			console.log(i);
+			info.innerText = "你点击了第" + i +"张图片";
 		}
 		for (var i = 0; i < 3; i++) {
 			arr.push(group.slice(i * c, (i + 1) * c));
 			var ts = arr[i];
 			var node = items[i];
 			for (var j = 0; j < ts.length; j++) {
-				var content = '<div class="picture-container"><a href="#' + j + '"><img ops="' + ts[j] + '" alt="err"/></a></div>';
+				var content = '<div class="picture-container"><a onclick="showMsg('+j+')" href="#' + j + '"><img ops="' + ts[j] + '" alt="err"/></a></div>';
 				node.innerHTML += content;
 			}
 		}
@@ -57,7 +61,7 @@
 			gutter: 2,
 			// direction: "vertical",
 			pagination: "#pagination",
-			autoplay: 30000,
+			autoplay: 10000,
 			loop: true,
 			freeMode: false,
 			disabvarouch: false, // 关闭触摸
