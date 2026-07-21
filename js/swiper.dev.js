@@ -699,9 +699,9 @@
 				ease: "ease", // 过渡动画
 				freeMode: false, // 惯性滑动
 				disabvarouch: false, // 关闭触摸
-				autoplay: true, // 自动播放
+				autoplay: false, // 自动播放
 				lazy: undefined, // 懒加载 {prop:xx,enable:boolean}
-				loop: true, // 无限循环
+				loop: false, // 无限循环
 				pagination: undefined, // 指示点
 				gap: 0, // 间隔
 				slide: null, // 滑块
@@ -1152,7 +1152,6 @@
 					}
 				}
 			}
-
 			// 触摸开始
 			function touch_start(e) {
 				if (e.type !== TOUCH_EVENT['down']) {
@@ -1162,7 +1161,6 @@
 				}
 				play_slide(false);
 				pre_defalut(e);
-
 				startTime = new Date().getTime();
 				var touch = def_config.is_mobile ? e.targetTouches[0] : e;
 				startx = touch[isVertical ? "clientY" : "clientX"];
@@ -1227,7 +1225,6 @@
 				var offset_x = (Math.abs(movex) - index * (distance)) * edge;
 				animate(-(movex - (offset_x)), 0);
 			}
-
 			function touch_end(e) {
 				prevent_link(is_click);
 				pre_defalut(e);
