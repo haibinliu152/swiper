@@ -823,9 +823,9 @@
 		var index = def_config.defaultIndex > def_config.num ? def_config.num - 1 : def_config.defaultIndex;
 		// 更新数据
 		function update_data() {
-			let _el = $(el);
-			let width = _el.css("width");
-			let height = _el.css("height");
+			var _el = $(el);
+			var width = _el.css("width");
+			var height = _el.css("height");
 			def_config.height = height;
 			def_config.width = width;
 			endx = isVertical ? index * def_config.height : index * def_config.width;
