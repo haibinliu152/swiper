@@ -997,7 +997,7 @@
 			function _bind_keydown(is_bind) {
 				if (is_bind === undefined) { throw Error("unsupport type of params") };
 				var _ = function (e) {
-					if (!e.repeat && isHover===true) {
+					if (!e.repeat && isHover === true) {
 						if (e.keyCode === 39) {
 							next(e);
 						} else if (e.keyCode === 37) {
@@ -1216,15 +1216,25 @@
 				last_touch_pos = x;
 				is_left = (x - startx) < 0;
 				var max_translate = distance * (def_config.loop ? def_config.num : def_config.num - 1);
-				is_click = Math.abs(x - startx) >= 20;
-				var bound = Math.abs(movex) > max_translate;// 边界判定
+				is_click = Math.abs(x - startx) >= 10;// 检测是否为点击
+				var bound = 0;// 边界判定
+				var rever = -movex;
+				if (rever < 0) {
+					bound = -1;// 左边界
+				}
+				else if (rever > 0 && rever > max_translate) {
+					bound = 1;
+				}
+				else {
+					bound = 0;
+				}
 				if (def_config.loop) {
-					if (bound) {
+					if (bound === 1) {
 						var v = 0;
 						index = v;
 						endx = v;
 						animate(v, 0);
-					} else if (movex > 0) {
+					} else if (bound === -1) {
 						index = def_config.num;
 						endx = max_translate;
 						animate(-movex, 0);
@@ -1233,12 +1243,10 @@
 					}
 				} else {
 					index = compute_index(movex);
-					if (Math.abs(movex) > max_translate) {
-						index = def_config.num - 1;
-					}
-					if (bound) {
+					if (bound === 1) {
 						edge = -0.8;
-					} else if (movex > 0) {
+						index = def_config.num - 1;
+					} else if (bound === -1) {
 						edge = 0.8;
 						index = 0;
 					} else {
@@ -1246,7 +1254,7 @@
 					}
 				}
 				var offset_x = (Math.abs(movex) - index * (distance)) * edge;
-				animate(-(movex - (offset_x)), 0);
+				animate(-(movex - offset_x), 0);
 			}
 			function touch_end(e) {
 				prevent_link(is_click);
