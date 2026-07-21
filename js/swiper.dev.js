@@ -1057,17 +1057,34 @@
 				clearInterval(timer);
 				timer = null;
 			}
-
+			function _accelerate(dis) {
+				var _ = undefined;
+				if (def_config.accelerate) {// 关闭
+					_ = (isVertical ? {
+						top: -(dis) + "px"
+					} : {
+						left: -(dis) + "px"
+					});
+				} else {
+					var u = isVertical ? "translate3d(0," + -(dis) + "px,0)" : "translate3d(" + -(dis) + "px,0,0)";
+					_ = {
+						transform: u
+					}
+				}
+				return _;
+			}
 			function animate(dis, duration, ease, call) {
 				if (undefined === ease) {
 					ease = "ease";
 				}
-				var transform = isVertical ? "translate3d(0," + -(dis) + "px,0)" : "translate3d(" + -(dis) + "px,0,0)";
-				def_config.slide.css({
-					transition: "transform " + duration + "ms " + def_config.ease,
-					transform: transform,
-					backfaceVisibility: "hidden"
-				});
+				var transform = _accelerate(dis);
+				var _op = {
+					backfaceVisibility: "hidden",
+					willChange: "transform",
+					transition: ("all " + duration + "ms " + def_config.ease),
+				}
+				var as = Object.assign({}, transform, _op);
+				def_config.slide.css(as);
 				if (is_function(call)) {
 					call();
 				}
@@ -1214,10 +1231,10 @@
 					}
 					if (bound) {
 						edge = -0.8;
-						
+
 					} else if (movex > 0) {
 						edge = 0.8;
-						index=0;
+						index = 0;
 					} else {
 						edge = 0;
 					}
