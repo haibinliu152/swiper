@@ -576,7 +576,6 @@
 				}
 				var t = this;
 				var el = t.$el;
-
 				if (is_window(el)) {
 					el = window;
 				}
@@ -611,21 +610,26 @@
 				}
 				else if (is_window(el)) {
 					call(window);
+				} else if (is_document(el)) {
+					call(document);
 				}
 			},
 			off: function (event, fun) {
 				var _events = this.events;
-				if (_events.length === 0) {
-					return;
-				}
-				this.bind_event(ID_VERSION, this.$el, function (el) { // 需要解决一下解绑后的句柄
-					_events.forEach(function (_func, index) {
+				this.bind_event(ID_VERSION, this.$el, function (el) {
+					if (is_array(el)) {
+						el.forEach(function (_func, index) {
+							_func.removeEventListener(event, fun, {
+								passive: false,
+								capture: true
+							});
+						})
+					} else {
 						el.removeEventListener(event, fun, {
 							passive: false,
 							capture: true
 						});
-						_events.splice(index, 1);
-					})
+					}
 				});
 				return this;
 			},
@@ -703,7 +707,6 @@
 				lazy: undefined, // 懒加载 {prop:xx,enable:boolean}
 				loop: false, // 无限循环
 				pagination: undefined, // 指示点
-				gap: 0, // 间隔
 				slide: null, // 滑块
 				num: 0, // 子滑块数量 包含复制的
 				realNum: 0, // 视觉滑块数量，不包含循环复制的
@@ -804,7 +807,7 @@
 			} else {
 				def_config.num = size;
 			}
-			/** 空间 */
+			/* 空间 */
 			return {
 				set_children_layout: set_children_layout
 			}
@@ -836,7 +839,7 @@
 				index: 0,
 				translate: 0
 			}
-			/** 自动播放 */
+			/** 自动播放计时器 */
 			var timer = null;
 			var isIe = navigator.appVersion.indexOf("Trident") !== -1;
 			var isHover = false;
@@ -991,6 +994,19 @@
 				})
 			}
 			/** 初始化前后切换按钮 */
+			function _bind_keydown(is_bind) {
+				if (is_bind === undefined) { throw Error("unsupport type of params") };
+				var _ = function (e) {
+					if (!e.repeat && isHover===true) {
+						if (e.keyCode === 39) {
+							next(e);
+						} else if (e.keyCode === 37) {
+							prev(e);
+						}
+					}
+				}
+				$(document).on("keydown", _);
+			}
 			function init_nav() {
 				if (object_contains(def_config, "navigator")) {
 					if (object_contains(def_config.navigator, "next")) {
@@ -1001,16 +1017,7 @@
 					}
 					// 按键导航
 					if (object_contains(def_config.navigator, "key") && def_config.navigator['key'] === true) {
-						$(document).on("keydown", function (e) {
-							if (!e.repeat) {
-								if (e.keyCode === 39) {
-									next(e);
-								} else if (e.keyCode === 37) {
-									prev(e);
-								}
-							}
-
-						})
+						_bind_keydown(true);
 					}
 				}
 			}
@@ -1231,7 +1238,6 @@
 					}
 					if (bound) {
 						edge = -0.8;
-
 					} else if (movex > 0) {
 						edge = 0.8;
 						index = 0;
@@ -1286,7 +1292,7 @@
 					endx = index * distance;
 					_target.index = index;
 					_target.translate = -endx;
-					animate(index * distance, 500);
+					animate(index * distance, def_config.duration);
 				} else {
 					set_postion();
 					animate(index * distance, def_config.duration, def_config.ease);
