@@ -88,13 +88,15 @@
 		}
 	}
 	var object_assign = function (target) {
+		var args = arguments;
+		if(args.length<1){return null;}
 		if (Object.assign === undefined) {
 			var result = {};
 			'use strict';
 			if (target == null) { throw new TypeError('Cannot convert undefined or null to object'); }
 			target = Object(target);
-			for (var index = 1; index < arguments.length; index++) {
-				var source = arguments[index];
+			for (var index = 1; index < args.length; index++) {
+				var source = args[index];
 				if (source != null) {
 					for (var key in source) {
 						if (Object.prototype.hasOwnProperty.call(source, key)) {
@@ -105,7 +107,11 @@
 			}
 			return target;
 		} else {
-			return Object.assign(target, o1, o2);
+			for (var index = 1; index < args.length; index++) {
+				var source = args[index];
+				Object.assign(target, source);
+			}
+			return target;
 		}
 	}
 	var str_is_empty = function (str) {
