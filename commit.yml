@@ -2,16 +2,19 @@
 branches: {
   }
 fileChange:
+  /index.html:
+    newFile: !uuid '5485fc31633cc16b73e38d4f180d8601b21c8e74'
+    oldFile: !uuid '53aee2f6ada0794c212fe31a63a60d135b78eb60'
   /js:
-    newFile: !uuid '7e3875259a2e6cf9ad824fbe6c5ca7de4e75b971'
-    oldFile: !uuid 'c7a64f18230db1f9c90f8da8cce113122705e9bf'
+    newFile: !uuid '9b9dcb50b7ffd4ca68b34523db0e263cc10a6c96'
+    oldFile: !uuid '7e3875259a2e6cf9ad824fbe6c5ca7de4e75b971'
   /js/swiper.dev.js:
-    newFile: !uuid 'd86a0bebcf8fd7896a4af1b24567785b1cd1b650'
-    oldFile: !uuid '6b85e4ca662f1af0f144a853d27bbf1206b1ed9a'
+    newFile: !uuid '5af449b32c96673edf20ed5e04cb7770c81f3955'
+    oldFile: !uuid 'd86a0bebcf8fd7896a4af1b24567785b1cd1b650'
   /js/swiper.min.js:
-    newFile: !uuid '166c1cd3f6dc68f31ed233f2a0254b34b2f965eb'
-    oldFile: !uuid '3f5fcb69170570a41b292b975a3549372845bacc'
-gitCommitId: !uuid 'c59b29dbf6dc8db5c4de1c5ff9b3a2fce57ec695'
+    newFile: !uuid 'cade3dab0eecb11e20123d2fa8b4c400443d4c31'
+    oldFile: !uuid '166c1cd3f6dc68f31ed233f2a0254b34b2f965eb'
+gitCommitId: !uuid 'e6fdc03609105edf97676a63243997e24c7ad0f3'
 renames: {
   }
-revisionId: 168
+revisionId: 169
