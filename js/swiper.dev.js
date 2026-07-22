@@ -87,6 +87,27 @@
 			}
 		}
 	}
+	var object_assign = function (target) {
+		if (Object.assign === undefined) {
+			var result = {};
+			'use strict';
+			if (target == null) { throw new TypeError('Cannot convert undefined or null to object'); }
+			target = Object(target);
+			for (var index = 1; index < arguments.length; index++) {
+				var source = arguments[index];
+				if (source != null) {
+					for (var key in source) {
+						if (Object.prototype.hasOwnProperty.call(source, key)) {
+							target[key] = source[key];
+						}
+					}
+				}
+			}
+			return target;
+		} else {
+			return Object.assign(target, o1, o2);
+		}
+	}
 	var str_is_empty = function (str) {
 		if (!str || typeof str !== "string") {
 			return true;
@@ -725,18 +746,7 @@
 		var swiper_items;
 		Object.freeze(base);
 		if (conf && typeof conf === "object" && Object.keys(conf).length > 0) {
-			if (undefined === Object.assign) {
-				var result = {};
-				Object.keys(def_config).forEach(function (key) {
-					result[key] = def_config[key];
-				});
-				Object.keys(conf).forEach(function (key) {
-					result[key] = conf[key];
-				});
-				def_config = result;
-			} else {
-				Object.assign(def_config, conf);
-			}
+			def_config = object_assign(def_config,conf);
 		}
 		conf = null;
 		def_config.is_mobile = (function () {
@@ -1090,7 +1100,7 @@
 					willChange: "transform",
 					transition: ("all " + duration + "ms " + def_config.ease),
 				}
-				var as = Object.assign({}, transform, _op);
+				var as = object_assign({}, transform, _op);
 				def_config.slide.css(as);
 				if (is_function(call)) {
 					call();
