@@ -124,6 +124,10 @@ body {
     background-color: rgb(152, 56, 125);
     color: white;
 }
+.color05 {
+    background-color: rgb(152, 56, 147);
+    color: white;
+}
 
 .base-layout {
     font-size: small;

@@ -1,1 +1,1 @@
-[预览](https://swiper-jet-pi.vercel.app/)
+[预览](https://haibinliu152.github.io/swiper/)
