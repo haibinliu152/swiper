@@ -951,7 +951,7 @@
 					def_config.realIndex = _ridx;
 					var sel_item = swiper_items.$el[_ridx];
 					var isLast = _ridx === 0;
-					if (def_config.lazy && def_config.lazy.enable) {
+					if (def_config.lazy && (def_config.lazy.enable===true || def_config.lazy.enable===undefined)) {
 						if (msie === -1) {
 							load_image(sel_item, isLast);
 						}
