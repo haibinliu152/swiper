@@ -89,7 +89,7 @@
 	}
 	var object_assign = function (target) {
 		var args = arguments;
-		if(args.length<1){return null;}
+		if (args.length < 1) { return null; }
 		if (Object.assign === undefined) {
 			var result = {};
 			'use strict';
@@ -154,7 +154,12 @@
 			_el.getBoundingClientRect()[prop];
 		}
 	}
+	var ua = window.navigator.userAgent;
+	var msie = ua.indexOf('MSIE ');
 	var has_class = function (el, class_name) {
+		if (msie > 0) {
+			return new RegExp('(^|\\s)' + class_name + '(\\s|$)').test(el.className);
+		}
 		return el.classList.contains(class_name);
 	}
 	var is_window = function (e) {
@@ -350,20 +355,32 @@
 				if (!name || typeof name !== "string" || name === "") {
 					return;
 				}
+				var reg = new RegExp('(^|\\s)' + name + '(\\s|$)', 'g');
+				function _in(el) {
+					if (el instanceof DocumentFragment) {
+						return;
+					}
+					if (add) {
+						if (msie > 0) {
+							// if(el.className)
+							el.className = (el.className ? el.className + ' ' : '') + name;
+						} else {
+							el.classList.add(name);
+						}
+					} else {
+						if (msie > 0) {
+							el.className = el.className.replace(reg, ' ').replace(/^\s+|\s+$/g, '');
+						} else {
+							el.classList.remove(name);
+						}
+					}
+				}
 				if (is_array(this.$el, true)) {
 					this.$el.forEach(function (item) {
-						if (add) {
-							this.$el.classList.add(name);
-						} else {
-							item.classList.remove(name);
-						}
+						_in(item);
 					})
 				} else if (is_document(this.$el)) {
-					if (add) {
-						this.$el.classList.add(name);
-					} else {
-						this.$el.classList.remove(name);
-					}
+					_in(this.$el);
 				}
 			},
 			removeClass: function (name) {
@@ -511,7 +528,8 @@
 								_find(every_node.children);
 							}
 							var _pirex = name.replace(".", "");
-							if (every_node.classList.contains(_pirex)) {
+							var __has = has_class(every_node, _pirex);
+							if (__has) {
 								list.push(every_node);
 							}
 						} catch (err) {
@@ -752,16 +770,16 @@
 		var swiper_items;
 		Object.freeze(base);
 		if (conf && typeof conf === "object" && Object.keys(conf).length > 0) {
-			def_config = object_assign(def_config,conf);
+			def_config = object_assign(def_config, conf);
 		}
 		conf = null;
 		def_config.is_mobile = (function () {
 			return (/Android|iPhone|iPad|X11|Mac OS X/i.test(navigator.userAgent));
 		})();
 		var TOUCH_EVENT = {
-			"down": def_config.is_mobile ? "touchstart" : "pointerdown",
-			"move": def_config.is_mobile ? "touchmove" : "pointermove",
-			"up": def_config.is_mobile ? "touchend" : "pointerup"
+			"down": def_config.is_mobile ? "touchstart" : msie === -1 ? "pointerdown" : "mousedown",//
+			"move": def_config.is_mobile ? "touchmove" : msie === -1 ? "pointermove" : "mousemove",
+			"up": def_config.is_mobile ? "touchend" : msie === -1 ? "pointerup" : "mouseup" //
 		};
 		var gutter = def_config.gutter || 0;
 		var j = (function () {
@@ -934,7 +952,9 @@
 					var sel_item = swiper_items.$el[_ridx];
 					var isLast = _ridx === 0;
 					if (def_config.lazy && def_config.lazy.enable) {
-						load_image(sel_item, isLast);
+						if (msie === -1) {
+							load_image(sel_item, isLast);
+						}
 					}
 					return _ridx;
 				}
@@ -975,9 +995,10 @@
 								var i = 0;
 								for (; i < len; i++) {
 									if (i === _ridx) {
-										children.$el[_ridx].classList.add(active);
+
+										$(children.$el[_ridx]).addClass(active);
 									} else {
-										children.$el[i].classList.remove(active);
+										$(children.$el[i]).removeClass(active);
 									}
 								}
 							});
@@ -1039,9 +1060,6 @@
 			}
 
 			function auto_play() {
-				if (isIe) {
-					return;
-				}
 				if (def_config.autoplay === false) {
 					return;
 				}
