@@ -35,6 +35,7 @@
 					<a href="#tag08">自动播放</a>
 					<a href="#tag09">懒加载/惯性</a>
 					<a href="#tag10">过渡时间/动画</a>
+					<a href="#tag11">命名空间</a>
 				</div>
 			</div>
 			<div class="content-col">
@@ -48,7 +49,7 @@
 							<br>默认开启触摸滑动,支持手机和PC端
 						</div>
 						<div class="col-2">
-							<div id="swiper01" class="simple-swiper-container">
+							<div id="swiper01" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -71,7 +72,7 @@
 							改变为垂直方向的滚动, 默认为水平
 						</div>
 						<div class="col-2">
-							<div id="swiper02" class="simple-swiper-container">
+							<div id="swiper02" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -98,7 +99,7 @@
 
 						</div>
 						<div class="col-2">
-							<div id="swiper03" class="simple-swiper-container">
+							<div id="swiper03" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -127,7 +128,7 @@
 							&lt;a id="prev">Prev&lt;/a&gt;</code>
 						</div>
 						<div class="col-2">
-							<div id="swiper04" class="simple-swiper-container">
+							<div id="swiper04" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -154,7 +155,7 @@
 							不会出现回弹效果
 						</div>
 						<div class="col-2">
-							<div id="swiper05" class="simple-swiper-container">
+							<div id="swiper05" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -180,7 +181,7 @@
 							设置为true后,将启用position来替代,适合老版本浏览器<br>
 						</div>
 						<div class="col-2">
-							<div id="swiper06" class="simple-swiper-container">
+							<div id="swiper06" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -207,7 +208,7 @@
 							设置为true后,此时不能触摸滑动<br>
 						</div>
 						<div class="col-2">
-							<div id="swiper07" class="simple-swiper-container">
+							<div id="swiper07" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -233,7 +234,7 @@
 							如果设置为true,则每2秒播放一次<br>如果设置为数字,如1000<br>就表明一秒钟/1000毫秒播放一次<br>
 						</div>
 						<div class="col-2">
-							<div id="swiper08" class="simple-swiper-container">
+							<div id="swiper08" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -263,15 +264,15 @@
 							适用场景:大图片加载,内容多的情况下,优化首次加载的性能
 						</div>
 						<div class="col-2">
-							<div id="swiper09" class="simple-swiper-container">
-								<div class="swiper-wrapper">
-									<div class="swiper-items">
+							<div id="swiper09" class="swiper-container">
+								<div class="pic-wrapper">
+									<div class="pic-items swiper-items">
 										<img data-src="img/img01.jpg" alt=" ">
 									</div>
-									<div class="swiper-items">
+									<div class="pic-items swiper-items">
 										<img data-src="img/img02.jpg" alt=" ">
 									</div>
-									<div class="swiper-items">
+									<div class="pic-items swiper-items">
 										<img data-src="img/img03.jpg" alt=" ">
 									</div>
 								</div>
@@ -295,7 +296,7 @@
 							设置轮播的过渡动画和时间ms
 						</div>
 						<div class="col-2">
-							<div id="swiper10" class="simple-swiper-container">
+							<div id="swiper10" class="swiper-container">
 								<div class="swiper-wrapper">
 									<div class="swiper-items color01">1</div>
 									<div class="swiper-items color02">2</div>
@@ -304,6 +305,32 @@
 								<a id="prev10" class="btn btn-prev"></a>
 								<a id="next10" class="btn btn-next"></a>
 								<div id="pagination10" class="pagehelper pagination"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content content-base" id="tag11">
+					<h4># 命名空间</h4>
+					<div class="base-layout">
+						<div class="col-1">
+							itemsClass: "swiper-items", 滑块类<br>
+							slideClass: "swiper-slider", item 类名 <br>
+							swiperClass: "swiper-container",  父容器命名 <br>
+							wrapperClass: "swiper-wrapper"  包裹命名 <br>
+							<span class="has"> 注意：命名空间必须和DOM类名一一对应，否则会报错 </span>
+						</div>
+						<div class="col-2">
+							<div id="swiper11" class="swiper-container">
+								<div class="my-wrapper">
+									<div class="my-items swiper-items color01">1</div>
+									<div class="my-items swiper-items color02">2</div>
+									<div class="my-items swiper-items color03">3</div>
+									<div class="my-items swiper-items color04">4</div>
+									<div class="my-items swiper-items color05">5</div>
+								</div>
+								<a id="prev11" class="btn btn-prev"></a>
+								<a id="next11" class="btn btn-next"></a>
+								<div id="pagination11" class="pagination"></div>
 							</div>
 						</div>
 					</div>
@@ -425,6 +452,9 @@
 					pagination: "#pagination09",
 					autoplay: false,
 					loop: true,
+					wrapperClass: "pic-wrapper",
+					itemsClass: "pic-items",
+					slideClass: "pic-slider",
 					lazy: {
 						prop: "data-src"
 					},
@@ -451,6 +481,26 @@
 				});
 				return this;
 			},
+			swiper11: function (el) {
+				new SimSwiper(el, {
+					navigator: {
+						prev: "#prev11",// 前进后退按钮
+						next: "#next11",
+						key: false,
+					},
+					pagination: {
+						el: "#pagination11",
+						click: false
+					},
+					wrapperClass: "my-wrapper",
+					itemsClass: "my-items",
+					slideClass: "my-slider",
+					swiperClass: "my-class",
+					loop: true
+				});
+				return this;
+			}
+
 		}
 		pageInit.swiper01("#swiper01")
 			.swiper02("#swiper02")
@@ -460,7 +510,9 @@
 			.swiper06("#swiper06")
 			.swiper07("#swiper07")
 			.swiper08("#swiper08")
-			.swiper09("#swiper09").swiper10("#swiper10");
+			.swiper09("#swiper09")
+			.swiper10("#swiper10")
+			.swiper11("#swiper11");
 
 	</script>
 </body>

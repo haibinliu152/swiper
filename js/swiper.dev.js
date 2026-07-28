@@ -179,6 +179,9 @@
 			}
 		})
 	}
+	var is_mobile = function () {
+		return (/Android|iPhone|iPad|X11|Mac OS X/i.test(navigator.userAgent));
+	}
 	var $ = function (o, parent) {
 		if (parent) {
 			root = parent;
@@ -362,7 +365,6 @@
 					}
 					if (add) {
 						if (msie > 0) {
-							// if(el.className)
 							el.className = (el.className ? el.className + ' ' : '') + name;
 						} else {
 							el.classList.add(name);
@@ -533,8 +535,7 @@
 								list.push(every_node);
 							}
 						} catch (err) {
-							console.error(err);
-							void (err);
+							throw new Error(err);
 						}
 					}
 				}
@@ -542,7 +543,7 @@
 				this.$el = list;
 				return this;
 			},
-			each: function (call) {
+			each: function (call, error) {
 				if (is_function(call) && this.$el) {
 					if (this.$el.length > 0) {
 						for (var key in this.$el) {
@@ -552,7 +553,9 @@
 							}
 						}
 					} else {
-						console.error("当前集合不可迭代", this.$el);
+						if (is_window(error)) {
+							error.call({}, ["当前集合不可迭代", 2])
+						}
 					}
 				}
 				return this;
@@ -738,44 +741,49 @@
 		};
 		return g;
 	}
-	if (!(el)) {
+	var root = $(el);
+	if (!(el) || root.size() === 0) {
 		console.error("找不到父容器", el);
 	} else {
-		var root = $(el),
-			def_config = {
-				accelerate: false, //禁用硬件加速
-				direction: "horizontal", // 播放方向
-				ease: "ease", // 过渡动画
-				freeMode: false, // 惯性滑动
-				disabvarouch: false, // 关闭触摸
-				autoplay: false, // 自动播放
-				lazy: undefined, // 懒加载 {prop:xx,enable:boolean}
-				loop: false, // 无限循环
-				pagination: undefined, // 指示点
-				slide: null, // 滑块
-				num: 0, // 子滑块数量 包含复制的
-				realNum: 0, // 视觉滑块数量，不包含循环复制的
-				width: 0, // 父容器宽度
-				height: 0, // 父容器高度
-				duration: 300, // 过渡时间
-				parent: root, // 父容器
-				defaultIndex: 0, // 默认滑块显示下标
-				on: null,
-				realIndex: 0,
-			};
+		var def_config = {
+			accelerate: false, //禁用硬件加速
+			direction: "horizontal", // 播放方向
+			ease: "ease", // 过渡动画
+			freeMode: false, // 惯性滑动
+			disabvarouch: false, // 关闭触摸
+			autoplay: false, // 自动播放
+			lazy: undefined, // 懒加载 {prop:xx,enable:boolean}
+			loop: false, // 无限循环
+			pagination: undefined, // 指示点
+			slide: null, // 滑块
+			num: 0, // 子滑块数量 包含复制的
+			realNum: 0, // 视觉滑块数量，不包含循环复制的
+			width: 0, // 父容器宽度
+			height: 0, // 父容器高度
+			duration: 300, // 过渡时间
+			parent: root, // 父容器
+			defaultIndex: 0, // 默认滑块显示下标
+			on: null,
+			realIndex: 0,
+			itemsClass: "swiper-items",// 滑块类
+			slideClass: "swiper-slider",// item 类名
+			swiperClass: "swiper-container", // 父容器命名
+			wrapperClass: "swiper-wrapper" // 包裹命名
+		};
 		var base = {
 			rootEl: root.$el
 		};
+
 		var endx = 0;
 		var swiper_items;
 		Object.freeze(base);
 		if (conf && typeof conf === "object" && Object.keys(conf).length > 0) {
 			def_config = object_assign(def_config, conf);
+			root.addClass(def_config.swiperClass);
 		}
 		conf = null;
-		def_config.is_mobile = (function () {
-			return (/Android|iPhone|iPad|X11|Mac OS X/i.test(navigator.userAgent));
-		})();
+		def_config.is_mobile = is_mobile();
+
 		var TOUCH_EVENT = {
 			"down": def_config.is_mobile ? "touchstart" : msie === -1 ? "pointerdown" : "mousedown",//
 			"move": def_config.is_mobile ? "touchmove" : msie === -1 ? "pointermove" : "mousemove",
@@ -783,10 +791,10 @@
 		};
 		var gutter = def_config.gutter || 0;
 		var j = (function () {
-			var slider = $('<div class="swiper-slider"></div>');
-			var laout_style = def_config.direction === "horizontal" ? 0 : 1;
+			var slider = $('<div class="' + def_config.slideClass + '"></div>');
+			var layout_style = def_config.direction === "horizontal" ? 0 : 1;
 			def_config.slide = slider;
-			swiper_items = root.children(".swiper-items");
+			swiper_items = root.children("." + def_config.itemsClass);
 			if (swiper_items.size() === 0) {
 				throw new Error("找不到滑块元素，请确保父容器下存在 class 为 swiper-items 的子元素");
 			}
@@ -802,48 +810,59 @@
 				height: undefined,
 				width: undefined
 			}
-			$(el).children(".swiper-wrapper").add(slider); // 删除原来的
-			function set_children_layout() {
-				root_size = get_style($(el));
-				var lay_opt = undefined;
-				if (laout_style === 1) { // 判断方向
-					style_config.width = root_size.width + "px";
-					style_config.height = (root_size.height * size) + "px";
-					lay_opt = {
-						width: (root_size.width) + "px",
-						height: (root_size.height - gutter) + "px",
-						marginTop: gutter / 2 + "px",
-						marginBottom: gutter / 2 + "px"
-					};
-					$(el).addClass(def_config.direction || "vertical");// 垂直方向
-				} else if (laout_style === 0) {
-					style_config.height = root_size.height + "px";
-					style_config.width = (root_size.width * size) + "px";
-					lay_opt = {
-						width: (root_size.width - gutter) + "px",
-						height: (root_size.height) + "px",
-						marginLeft: gutter / 2 + "px",
-						marginRight: gutter / 2 + "px"
-					};
-					$(el).addClass(def_config.direction || 'horizontal');// 水平方向
+			try {
+				var s = $(el).children("." + def_config.wrapperClass)
+					.add(slider);
+				if (s.size() === 0) {
+					throw new SyntaxError('找不到命名空间\t' + def_config.wrapperClass);
 				}
-				swiper_items = $(el).children(".swiper-items").css(lay_opt).css({
-					boxSizing: "border-box"
-				});
-				def_config.width = root_size.width;
-				def_config.height = root_size.height;
-				slider.css(style_config);
-			}
-			slider.add(clone_swipers);
-			set_children_layout();
-			if (def_config.loop) {
-				def_config.num = size - 1;
-			} else {
-				def_config.num = size;
-			}
-			/* 空间 */
-			return {
-				set_children_layout: set_children_layout
+				function set_children_layout() {
+					root_size = get_style($(el));
+					var lay_opt = undefined;
+					if (layout_style === 1) { // 判断方向
+						style_config.width = root_size.width + "px";
+						style_config.height = (root_size.height * size) + "px";
+						lay_opt = {
+							width: (root_size.width) + "px",
+							height: (root_size.height - gutter) + "px",
+							marginTop: gutter / 2 + "px",
+							marginBottom: gutter / 2 + "px"
+						};
+						$(el).addClass(def_config.direction || "vertical");// 垂直方向
+					} else if (layout_style === 0) {
+						style_config.height = root_size.height + "px";
+						style_config.width = (root_size.width * size) + "px";
+						lay_opt = {
+							width: (root_size.width - gutter) + "px",
+							height: (root_size.height) + "px",
+							marginLeft: gutter / 2 + "px",
+							marginRight: gutter / 2 + "px"
+						};
+						$(el).addClass(def_config.direction || 'horizontal');// 水平方向
+					}
+					swiper_items = $(el).children("." + def_config.itemsClass).css(lay_opt).css({
+						boxSizing: "border-box"
+					});
+					if (swiper_items.size() === 0) {
+						throw new SyntaxError('找不到命名空间\t' + def_config.wrapperClass);
+					}
+					def_config.width = root_size.width;
+					def_config.height = root_size.height;
+					slider.css(style_config);
+				}
+				slider.add(clone_swipers);
+				set_children_layout();
+				if (def_config.loop) {
+					def_config.num = size - 1;
+				} else {
+					def_config.num = size;
+				}
+				/* 空间 */
+				return {
+					set_children_layout: set_children_layout
+				}
+			} catch (e) {
+				console.error(e);
 			}
 		});
 		def_config.slide = null;
@@ -951,7 +970,7 @@
 					def_config.realIndex = _ridx;
 					var sel_item = swiper_items.$el[_ridx];
 					var isLast = _ridx === 0;
-					if (def_config.lazy && (def_config.lazy.enable===true || def_config.lazy.enable===undefined)) {
+					if (def_config.lazy && (def_config.lazy.enable === true || def_config.lazy.enable === undefined)) {
 						if (msie === -1) {
 							load_image(sel_item, isLast);
 						}
@@ -995,7 +1014,6 @@
 								var i = 0;
 								for (; i < len; i++) {
 									if (i === _ridx) {
-
 										$(children.$el[_ridx]).addClass(active);
 									} else {
 										$(children.$el[i]).removeClass(active);
@@ -1341,7 +1359,7 @@
 				}
 			}
 			function __init__touch() {
-				var slider_el = $(el).children(".swiper-slider");
+				var slider_el = $(el).children("." + def_config.slideClass);
 				if (!def_config.disabvarouch) {
 					slider_el.on(TOUCH_EVENT['down'], touch_start);
 					def_config.is_mobile ? slider_el.on(TOUCH_EVENT["up"], touch_end) : $(document).on(TOUCH_EVENT["up"], touch_end);
