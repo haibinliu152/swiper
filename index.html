@@ -6,6 +6,7 @@
 	<title>插件</title>
 	<meta name="def-grey" content="false" />
 	<meta http-equiv="X-UA-Compatible" content="edge" />
+	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="short icon" href="img/logo.ico" />
 	<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -265,16 +266,10 @@
 						</div>
 						<div class="col-2">
 							<div id="swiper09" class="swiper-container">
-								<div class="pic-wrapper">
-									<div class="pic-items swiper-items">
-										<img data-src="img/img01.jpg" alt=" ">
-									</div>
-									<div class="pic-items swiper-items">
-										<img data-src="img/img02.jpg" alt=" ">
-									</div>
-									<div class="pic-items swiper-items">
-										<img data-src="img/img03.jpg" alt=" ">
-									</div>
+								<div class="pic-wrapper" id="pic">
+									<!-- <div class="pic-items swiper-items">
+										<img data-src="img/1.jpg" alt=" ">
+									</div> -->
 								</div>
 								<div id="pagination09" class="pagehelper pagination"></div>
 								<span id="prev09" class="btn btn-prev"> </span>
@@ -315,8 +310,8 @@
 						<div class="col-1">
 							itemsClass: "swiper-items", 滑块类<br>
 							slideClass: "swiper-slider", item 类名 <br>
-							swiperClass: "swiper-container",  父容器命名 <br>
-							wrapperClass: "swiper-wrapper"  包裹命名 <br>
+							swiperClass: "swiper-container", 父容器命名 <br>
+							wrapperClass: "swiper-wrapper" 包裹命名 <br>
 							<span class="has"> 注意：命名空间必须和DOM类名一一对应，否则会报错 </span>
 						</div>
 						<div class="col-2">
@@ -338,6 +333,7 @@
 			</div>
 		</div>
 	</div>
+
 	<br>
 	<center>免费开源</center>
 	<br>
@@ -443,6 +439,24 @@
 				return this;
 			},
 			swiper09: function (el) {
+				var i = 1;
+				var max = 22;
+				var prop="data-src";
+				var vm = document.createDocumentFragment();
+	
+				for (; i < max; i++) {
+					var node = document.createElement("div");
+					node.className = "pic-items swiper-items";
+					var img = document.createElement("img");
+					img.setAttribute(prop, "img/" + i + ".jpg");
+					node.appendChild(img);
+					vm.appendChild(node);
+				}
+				var wrapper = document.getElementById("pic");
+				if (!wrapper) {
+					return;
+				}
+				wrapper.appendChild(vm);
 				new SimSwiper(el, {
 					navigator: {
 						prev: "#prev09",// 前进后退按钮
@@ -456,7 +470,7 @@
 					itemsClass: "pic-items",
 					slideClass: "pic-slider",
 					lazy: {
-						prop: "data-src"
+						prop: prop
 					},
 					freeMode: true,
 				});
