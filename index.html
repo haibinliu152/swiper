@@ -6,11 +6,11 @@
 	<title>插件</title>
 	<meta name="def-grey" content="false" />
 	<meta http-equiv="X-UA-Compatible" content="edge" />
-	<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=1.0, user-scalable=no" />
 	<link rel="short icon" href="img/logo.ico" />
 	<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<script type="text/javascript" src="js/swiper.dev.js"></script>
+	<script type="text/javascript" src="js/swiper.min.js"></script>
 </head>
 
 <body>
@@ -37,6 +37,7 @@
 					<a href="#tag09">懒加载/惯性</a>
 					<a href="#tag10">过渡时间/动画</a>
 					<a href="#tag11">命名空间</a>
+					<a href="#tag12">鼠标滚轮控制</a>
 				</div>
 			</div>
 			<div class="content-col">
@@ -267,9 +268,6 @@
 						<div class="col-2">
 							<div id="swiper09" class="swiper-container">
 								<div class="pic-wrapper" id="pic">
-									<!-- <div class="pic-items swiper-items">
-										<img data-src="img/1.jpg" alt=" ">
-									</div> -->
 								</div>
 								<div id="pagination09" class="pagehelper pagination"></div>
 								<span id="prev09" class="btn btn-prev"> </span>
@@ -326,6 +324,29 @@
 								<a id="prev11" class="btn btn-prev"></a>
 								<a id="next11" class="btn btn-next"></a>
 								<div id="pagination11" class="pagination"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="content content-base" id="tag12">
+					<h4># 鼠标滚轮控制</h4>
+					<div class="base-layout">
+						<div class="col-1">
+							mouseWheel: boolean <br>
+							或者 mouseWheel: {reverse:boolean} <br>
+							默认为false <br>
+							鼠标悬浮在滑动区域，滚轮上下切换 <br>
+						</div>
+						<div class="col-2">
+							<div id="swiper12" class="swiper-container">
+								<div class="swiper-wrapper">
+									<div class="swiper-items color01">1</div>
+									<div class="swiper-items color02">2</div>
+									<div class="swiper-items color03">3</div>
+									<div class="swiper-items color04">4</div>
+									<div class="swiper-items color05">5</div>
+								</div>
+								<div id="pagination12" class="pagination"></div>
 							</div>
 						</div>
 					</div>
@@ -431,8 +452,10 @@
 					},
 					pagination: {
 						el: "#pagination08",
-						click: false
+						click: true
 					},
+					direction: "vertical",
+					freeMode: false,
 					autoplay: true,
 					loop: true
 				});
@@ -440,11 +463,10 @@
 			},
 			swiper09: function (el) {
 				var i = 1;
-				var max = 22;
-				var prop="data-src";
+				var max = 23;
+				var prop = "data-src";
 				var vm = document.createDocumentFragment();
-	
-				for (; i < max; i++) {
+				for (; i <= max; i++) {
 					var node = document.createElement("div");
 					node.className = "pic-items swiper-items";
 					var img = document.createElement("img");
@@ -483,13 +505,12 @@
 						next: "#next10",
 						key: false,
 					},
-					duration: 800,
+					duration: 600,
 					ease: "ease-in-out",
 					pagination: {
 						el: "#pagination10",
 						click: false
 					},
-
 					autoplay: true,
 					loop: true
 				});
@@ -506,6 +527,7 @@
 						el: "#pagination11",
 						click: false
 					},
+					freeMode: true,
 					wrapperClass: "my-wrapper",
 					itemsClass: "my-items",
 					slideClass: "my-slider",
@@ -513,8 +535,21 @@
 					loop: true
 				});
 				return this;
+			}, swiper12: function (el) {
+				new SimSwiper(el, {
+					pagination: {
+						el: "#pagination12",
+						click: false
+					},
+					direction: "vertical",
+					freeMode: true,
+					loop: true,
+					mouseWheel: {
+						reverse: false
+					},// 鼠标滚轮控制
+				});
+				return this;
 			}
-
 		}
 		pageInit.swiper01("#swiper01")
 			.swiper02("#swiper02")
@@ -526,8 +561,8 @@
 			.swiper08("#swiper08")
 			.swiper09("#swiper09")
 			.swiper10("#swiper10")
-			.swiper11("#swiper11");
-
+			.swiper11("#swiper11")
+			.swiper12("#swiper12");
 	</script>
 </body>
 

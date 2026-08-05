@@ -22,6 +22,9 @@
 	var is_document = function (el) {
 		return el && (el instanceof Element || el instanceof Document || el instanceof DocumentFragment);
 	}
+	var is_boolean = function (bool) {
+		return typeof bool === 'boolean';
+	}
 	var set_props = function (el, props, call) {
 		if (!el) {
 			return;
@@ -127,7 +130,7 @@
 		if (undefined === check_blank) {
 			check_blank = false
 		}
-		return arr && typeof arr === "object" && (check_blank ? array_not_empty(arr) : arr.length !== undefined)
+		return arr && typeof arr === "object" && (check_blank ? array_not_empty(arr) : arr.length !== undefined) && arr instanceof Array;
 	}
 	var is_function = function (f) {
 		return f && typeof f === "function";
@@ -783,7 +786,6 @@
 		}
 		conf = null;
 		def_config.is_mobile = is_mobile();
-
 		var TOUCH_EVENT = {
 			"down": def_config.is_mobile ? "touchstart" : msie === -1 ? "pointerdown" : "mousedown",//
 			"move": def_config.is_mobile ? "touchmove" : msie === -1 ? "pointermove" : "mousemove",
@@ -877,8 +879,7 @@
 		}
 		setDistance();
 		var index = def_config.defaultIndex > def_config.num ? def_config.num - 1 : def_config.defaultIndex;
-		// 更新数据
-		function update_data() {
+		function update_data() {// 更新数据
 			var _el = $(el);
 			var width = _el.css("width");
 			var height = _el.css("height");
@@ -1074,6 +1075,39 @@
 					if (object_contains(def_config.navigator, "key") && def_config.navigator['key'] === true) {
 						_bind_keydown(true);
 					}
+				}
+				if (object_contains(def_config, "mouseWheel") && (is_boolean(def_config['mouseWheel']) || is_object(def_config['mouseWheel']))) {
+					var _m_time = null;
+					var isTop = false;
+					var event_name = navigator.userAgent.indexOf("Firefox") > -1 ? "DOMMouseScroll" : "mousewheel";
+					var isLock = false;
+					var reverse = def_config['mouseWheel'].reverse === true;// 反方向
+					function mouseWheel(e) {
+						e.stopPropagation();
+						pre_defalut(e);
+						isTop = reverse ? (e.deltaY > 0) : (e.deltaY < 0);
+						if (isLock) {
+							if (isTop) {
+								prev();
+							} else {
+								next();
+							}
+							isLock = false;
+						}
+
+						_m_time = setTimeout(function () {
+							isLock = true;
+							_m_time = null;
+							clearTimeout(_m_time);
+						}, def_config.duration);
+					}
+					$(el).hover(function (e) {
+						window.addEventListener(event_name, mouseWheel, {
+							passive: false
+						});
+					}, function (e) {
+						window.removeEventListener(event_name, mouseWheel);
+					});
 				}
 			}
 
