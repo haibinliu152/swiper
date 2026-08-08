@@ -6,7 +6,8 @@
 	} else {
 		SimSwiper = e;
 	}
-})(this, function (el, conf) {
+	SimSwiper.__proto__.$ = e(null, null, true);
+})(this, function (el, conf, ext) {
 	var ID_VERSION = "ID.VERSION." + new Date().getMilliseconds() + "" + parseInt(Math.random() * 10000);
 	var object_contains = function (obj, key) {
 		if (!obj || !key) {
@@ -37,7 +38,18 @@
 			}
 		}
 	}
-
+	// 节流
+	function throttle(func, delay) {
+		var lastTime = 0;
+		return function () {
+			var args = arguments;
+			var now = Date.now();
+			if (now - lastTime >= delay) {
+				func.apply(this, args);
+				lastTime = now;
+			}
+		};
+	}
 	String.prototype.toNumber = function () {
 		if (!this) {
 			return null;
@@ -168,7 +180,6 @@
 	var is_window = function (e) {
 		return e && e === window;
 	}
-
 	/**声明响应式 */
 	var to_ref = function (target, key, callback) {
 		if (!target && !key && typeof key !== "string" && !target[key]) {
@@ -242,8 +253,10 @@
 						}
 					} else if (is_document(this.$el)) {
 						try {
-							this.$el.addEventListener("DOMContentLoaded", function () {
-								call(this.$el);
+							this.on("DOMContentLoaded", function () {
+								call.call(this.$el);
+							}, {
+								once: true
 							});
 						} catch (err) {
 							void (err);
@@ -630,26 +643,23 @@
 				if (is_window(el)) {
 					el = window;
 				}
+				var _opt = opt || {
+					passive: false,
+					capture: true
+				};
 				t.bind_event(ID_VERSION, el, function (e) {
 					if (!e) {
 						console.warn("无法为对象", e, "绑定事件");
 						return;
 					}
-					var _opt = opt || {
-						passive: false,
-						capture: true
-					};
-					e.addEventListener(event, function (e) {
-						func.call(el, e);
-					}, _opt);
-					t.events.push(func);
+					e.addEventListener(event, func, _opt);
 				});
 				return this;
 			},
 			bind_event: function (number, el, call) {
 				if (number !== ID_VERSION) {
-					throw new Error("禁止访问");
-				} else if (is_function(call) && (is_document(el) || is_window(call))) {
+					return;
+				} else if (is_function(call) && (is_document(el) || is_window(el))) {
 					call(el);
 				} else if (is_array(el, true)) {
 					for (var ev in el) {
@@ -659,27 +669,20 @@
 						}
 					}
 				}
-				else if (is_window(el)) {
-					call(window);
-				} else if (is_document(el)) {
-					call(document);
-				}
 			},
-			off: function (event, fun) {
-				var _events = this.events;
-				this.bind_event(ID_VERSION, this.$el, function (el) {
+			off: function (event, fun, opt) {
+				var el = this.$el;
+				var _opt = {
+					passive: false,
+					capture: true
+				} || opt;
+				this.bind_event(ID_VERSION, el, function (el) {
 					if (is_array(el)) {
 						el.forEach(function (_func, index) {
-							_func.removeEventListener(event, fun, {
-								passive: false,
-								capture: true
-							});
+							_func.removeEventListener(event, fun, _opt);
 						})
 					} else {
-						el.removeEventListener(event, fun, {
-							passive: false,
-							capture: true
-						});
+						el.removeEventListener(event, fun, _opt);
 					}
 				});
 				return this;
@@ -743,6 +746,10 @@
 			}
 		};
 		return g;
+	}
+	if (ext) {
+
+		return $;
 	}
 	var root = $(el);
 	if (!(el) || root.size() === 0) {
@@ -911,7 +918,9 @@
 			function __(e) {
 				if (e) {
 					e.stopPropagation();
-					e.preventDefault();
+					if (!def_config.is_mobile) {
+						e.preventDefault();
+					}
 				}
 			}
 			auto_play();
@@ -1052,11 +1061,15 @@
 			/** 初始化前后切换按钮 */
 			function _bind_keydown(is_bind) {
 				if (is_bind === undefined) { throw Error("unsupport type of params") };
+				var key_opt = {
+					nextCode: isVertical ? 40 : 39,
+					prevCode: isVertical ? 38 : 37
+				}
 				var _ = function (e) {
 					if (!e.repeat && isHover === true) {
-						if (e.keyCode === 39) {
+						if (e.keyCode === key_opt.nextCode) {
 							next(e);
-						} else if (e.keyCode === 37) {
+						} else if (e.keyCode === key_opt.prevCode) {
 							prev(e);
 						}
 					}
@@ -1065,13 +1078,14 @@
 			}
 			function init_nav() {
 				if (object_contains(def_config, "navigator")) {
+					var imdate = def_config.duration <= 300;
+					var _throttle = null;
 					if (object_contains(def_config.navigator, "next")) {
-						$(def_config.navigator.next).on("click", next);
+						$(def_config.navigator.next).on("click", imdate ? next : throttle(next, def_config.duration));
 					}
 					if (object_contains(def_config.navigator, "prev")) {
-						$(def_config.navigator.prev).on("click", prev);
+						$(def_config.navigator.prev).on("click", imdate ? prev : throttle(prev, def_config.duration));
 					}
-					// 按键导航
 					if (object_contains(def_config.navigator, "key") && def_config.navigator['key'] === true) {
 						_bind_keydown(true);
 					}
@@ -1080,33 +1094,25 @@
 					var _m_time = null;
 					var isTop = false;
 					var event_name = navigator.userAgent.indexOf("Firefox") > -1 ? "DOMMouseScroll" : "mousewheel";
-					var isLock = false;
 					var reverse = def_config['mouseWheel'].reverse === true;// 反方向
-					function mouseWheel(e) {
+					var _fc = throttle(function (e) {
+						isTop = reverse ? (e.deltaY > 0) : (e.deltaY < 0);
+						if (isTop) {
+							prev();
+						} else {
+							next();
+						}
+					}, def_config.duration);
+					var mouseWheel = function (e) {
 						e.stopPropagation();
 						pre_defalut(e);
-						isTop = reverse ? (e.deltaY > 0) : (e.deltaY < 0);
-						if (isLock) {
-							if (isTop) {
-								prev();
-							} else {
-								next();
-							}
-							isLock = false;
-						}
-
-						_m_time = setTimeout(function () {
-							isLock = true;
-							_m_time = null;
-							clearTimeout(_m_time);
-						}, def_config.duration);
+						_fc(e);
 					}
+					var win = $(window);
 					$(el).hover(function (e) {
-						window.addEventListener(event_name, mouseWheel, {
-							passive: false
-						});
+						win.on(event_name, mouseWheel);
 					}, function (e) {
-						window.removeEventListener(event_name, mouseWheel);
+						win.off(event_name, mouseWheel);
 					});
 				}
 			}
@@ -1137,11 +1143,11 @@
 			}
 			if (object_contains(def_config, "autoplay") && !isIe) {
 				$(el).hover(function (e) {
-					e.stopPropagation();
+					__(e);
 					isHover = true;
 					play_slide(false);
 				}, function (e) {
-					e.stopPropagation();
+					__(e);
 					isHover = false;
 					play_slide(true);
 				});
@@ -1246,15 +1252,9 @@
 								var _link = link[j];
 								if (_link && is_document(_link)) {
 									if (prevent) {
-										$(_link).$el.addEventListener("click", pre_defalut, {
-											passive: false,
-											capture: true
-										});
+										$(_link).on("click", pre_defalut);
 									} else {
-										$(_link).$el.removeEventListener("click", pre_defalut, {
-											passive: false,
-											capture: true
-										});
+										$(_link).off("click", pre_defalut);
 									}
 								}
 							}
@@ -1264,19 +1264,17 @@
 			}
 			// 触摸开始
 			function touch_start(e) {
-				if (e.type !== TOUCH_EVENT['down']) {
-					return;
-				} else if (e.button && e.button !== 0) {
+				if (e.type !== TOUCH_EVENT['down'] || (e.button && e.button !== 0)) {
 					return;
 				}
 				play_slide(false);
-				pre_defalut(e);
+				__(e);
 				startTime = new Date().getTime();
 				var touch = def_config.is_mobile ? e.targetTouches[0] : e;
 				startx = touch[isVertical ? "clientY" : "clientX"];
 				_activeTouchId = touch.identifier !== undefined ? touch.identifier : null;
 				is_press = true;
-				var b_el = def_config.is_mobile ? this[0] : document;
+				var b_el = def_config.is_mobile ? this : document;
 				$(b_el).on(TOUCH_EVENT["move"], function (e) {
 					touch_move(e);
 				});
@@ -1284,7 +1282,7 @@
 			}
 			var edge = 0;
 			function touch_move(e) {
-				pre_defalut(e);
+				__(e);
 				if (!is_press) {
 					return;
 				}
@@ -1344,7 +1342,7 @@
 			}
 			function touch_end(e) {
 				prevent_link(is_click);
-				pre_defalut(e);
+				__(e);
 				if (!isHover) {
 					play_slide(true);
 				}
@@ -1420,7 +1418,7 @@
 				update_data();
 				inits.to();
 			}, 240)
-		})
+		});
 	}
 	return {
 		$: $,

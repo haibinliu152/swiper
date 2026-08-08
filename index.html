@@ -103,7 +103,9 @@
 						<div class="col-2">
 							<div id="swiper03" class="swiper-container">
 								<div class="swiper-wrapper">
-									<div class="swiper-items color01">1</div>
+									<div class="swiper-items color01">
+										<a href="#tag03" onclick="alert('这是第一个锚点')">1</a>
+									</div>
 									<div class="swiper-items color02">2</div>
 									<div class="swiper-items color03">3</div>
 									<div class="swiper-items color04">4</div>
@@ -455,7 +457,6 @@
 						click: true
 					},
 					direction: "vertical",
-					freeMode: false,
 					autoplay: true,
 					loop: true
 				});
@@ -494,7 +495,7 @@
 					lazy: {
 						prop: prop
 					},
-					freeMode: true,
+					freeMode: false,
 				});
 				return this;
 			},
@@ -539,14 +540,17 @@
 				new SimSwiper(el, {
 					pagination: {
 						el: "#pagination12",
-						click: false
+						click: true
 					},
 					direction: "vertical",
 					freeMode: true,
 					loop: true,
-					mouseWheel: {
+					mouseWheel: {// 鼠标滚轮控制
 						reverse: false
-					},// 鼠标滚轮控制
+					},
+					navigator: {
+						key: true
+					}
 				});
 				return this;
 			}
