@@ -357,9 +357,9 @@
 		</div>
 	</div>
 
-	<br>
-	<center>免费开源</center>
-	<br>
+	<div class="footer">
+		<span>✦</span> 免费开源 <span>✦</span>
+	</div>
 	</div>
 
 	<script type="text/javascript">
@@ -567,6 +567,48 @@
 			.swiper10("#swiper10")
 			.swiper11("#swiper11")
 			.swiper12("#swiper12");
+
+		// 侧边栏导航高亮
+		(function () {
+			var nav = document.querySelectorAll('.float > a');
+			var sections = [];
+			nav.forEach(function (link) {
+				var id = link.getAttribute('href');
+				var el = document.querySelector(id);
+				if (el) sections.push({ link: link, el: el });
+			});
+
+			// 点击高亮
+			nav.forEach(function (link) {
+				link.addEventListener('click', function () {
+					nav.forEach(function (a) { a.classList.remove('active'); });
+					link.classList.add('active');
+				});
+			});
+
+			// 滚动监听，自动切换高亮
+			if ('IntersectionObserver' in window) {
+				var observer = new IntersectionObserver(function (entries) {
+					entries.forEach(function (entry) {
+						if (entry.isIntersecting) {
+							nav.forEach(function (a) { a.classList.remove('active'); });
+							var target = sections.find(function (s) { return s.el === entry.target; });
+							if (target) target.link.classList.add('active');
+						}
+					});
+				}, { rootMargin: '-20% 0px -60% 0px' });
+
+				sections.forEach(function (s) { observer.observe(s.el); });
+			}
+
+			// 初始高亮（URL hash）
+			var hash = window.location.hash;
+			if (hash) {
+				nav.forEach(function (link) {
+					if (link.getAttribute('href') === hash) link.classList.add('active');
+				});
+			}
+		})();
 	</script>
 </body>
 

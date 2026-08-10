@@ -1,7 +1,24 @@
-.has {
-    color: red;
+/* === CSS Variables === */
+:root {
+    --primary: #4F46E5;
+    --primary-light: #818CF8;
+    --primary-dark: #3730A3;
+    --accent: #F97316;
+    --bg: #F1F5F9;
+    --card-bg: #FFFFFF;
+    --text: #1E293B;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+    --border: #E2E8F0;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.08);
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.2s ease;
 }
 
+/* === Base === */
 html {
     scroll-behavior: smooth;
 }
@@ -10,30 +27,277 @@ body {
     height: 100vh;
     width: 100%;
     margin: 0;
-    padding-top: 44px;
+    padding-top: 56px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
+/* === Header === */
+.to-header {
+    position: fixed;
+    width: 100%;
+    height: 56px;
+    top: 0;
+    left: 0;
+    color: #fff;
+    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 40%, #7C3AED 100%);
+    text-align: center;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 56px;
+    z-index: 999;
+    box-shadow: 0 2px 16px rgba(79, 70, 229, 0.3);
+    letter-spacing: 3px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.to-header::before {
+    content: '✦ ';
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.to-header::after {
+    content: ' ✦';
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* === App Container === */
 .app {
+    max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
-    /* max-width: 1170px; */
+    padding: 0 24px;
 }
 
+/* === Intro Section === */
+.intro {
+    max-width: 900px;
+    margin: 32px auto;
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #F8FAFF 100%);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary-light);
+}
+
+.intro p {
+    margin: 10px 0;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.8;
+    padding-left: 4px;
+}
+
+.intro p:first-child {
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* === Main Layout === */
 .main {
     display: flex;
     justify-content: center;
     width: 100%;
+    gap: 24px;
     box-sizing: border-box;
+    position: relative;
+}
+
+/* === Left Sidebar === */
+.left-aside {
+    position: relative;
+    width: 168px;
+    flex-shrink: 0;
+}
+
+.left-aside .float {
+    position: fixed;
+    top: 76px;
+    z-index: 8;
+    width: 156px;
+    background: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    padding: 6px 0;
+}
+
+.float>a {
+    color: var(--text-secondary);
+    text-align: left;
+    text-decoration: none;
+    padding: 9px 14px;
+    font-size: 13px;
+    transition: all var(--transition);
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+.float>a:hover {
+    color: var(--primary);
+    background: #EEF2FF;
+    border-left-color: var(--primary-light);
+}
+
+.float>a:target,
+.float>a:focus,
+.float>a.active {
+    color: var(--primary);
+    background: #E0E7FF;
+    border-left-color: var(--primary);
+    font-weight: 600;
+}
+
+/* === Content Area === */
+.content-col {
+    flex: 1;
+    min-width: 0;
+}
+
+/* === Content Cards === */
+.content {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.content:hover {
+    box-shadow: var(--shadow-md);
+    border-color: #CBD5E1;
+}
+
+.content h4 {
+    margin: 0 0 18px 0;
+    font-size: 17px;
+    color: var(--primary-dark);
+    font-weight: 700;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #EEF2FF;
+    position: relative;
+}
+
+.content h4::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 1px;
+}
+
+/* === Demo Layout (Left code / Right preview) === */
+.base-layout {
+    font-size: small;
+    display: flex;
+    color: var(--text);
+    width: 100%;
+    justify-content: start;
+    flex-wrap: nowrap;
+    line-height: 1.8;
+    box-sizing: border-box;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    gap: 16px;
+}
+
+.col-1 {
+    width: 220px;
+    flex-shrink: 0;
+    background: #F8FAFC;
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    font-size: 13px;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', 'Fira Code', monospace;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    overflow: auto;
+}
+
+.col-2 {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Code highlight */
+code {
+    white-space: normal;
+    background: #E2E8F0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #C026D3;
+    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+}
+
+.has {
+    color: #DC2626;
+    font-weight: 600;
+    background: #FEF2F2;
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+/* === Swiper Items Color Palette === */
+.color01 {
+    background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+    color: #fff;
+}
+
+.color02 {
+    background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+    color: #fff;
+}
+
+.color03 {
+    background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%);
+    color: #fff;
+}
+
+.color04 {
+    background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);
+    color: #1a1a1a;
+}
+
+.color05 {
+    background: linear-gradient(135deg, #FA709A 0%, #FEE140 100%);
+    color: #1a1a1a;
+}
+
+/* === Swiper Container Overrides === */
+.swiper-container {
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
 }
 
 .swiper-items {
     height: 100%;
     position: relative;
-    font-size: 40px;
+    font-size: 48px;
+    font-weight: 700;
     align-items: center;
     display: flex;
     justify-content: center;
     overflow: hidden;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .swiper-items a {
@@ -42,170 +306,191 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: fit-content !important;
+    color: inherit;
+    text-decoration: none;
 }
 
 .swiper-items img {
-    width: auto;
-    height: 100%;
-}
-
-
-.pagehelper .pagination-items {
-    width: 10px;
-    height: 6px;
-    border-radius: 0;
-    border: none;
-    transition: width .18s;
-}
-
-
-.grid-layout {
-    display: flex;
-    gap: 2%;
-    flex-wrap: wrap;
-}
-
-.grid-layout .picture-container>a {
-    display: block;
-    height: 100%;
     width: 100%;
-}
-
-.grid-layout .picture-container>img {
-    width: auto;
     height: 100%;
+    object-fit: cover;
 }
 
-.picture-container {
-    width: 32.0%;
-    padding: 1%;
-    box-sizing: border-box;
-    height: 32.0%;
-    background-color: rgb(59, 59, 59);
-    position: relative;
-    overflow: hidden;
+/* === Buttons Enhance (keep swiper.min.css positioning) === */
+.swiper-container>.btn {
+    opacity: 0.75 !important;
+    transition: opacity 0.25s, !important;
+    border-radius: 6px !important;
 }
 
-.to-header {
-    position: fixed;
-    width: 100%;
-    height: 44px;
-    color: black;
-    top: 0;
-    background-color: rgba(255, 255, 255, 0.672);
-    border-bottom: 1px solid rgba(4, 4, 4, 0.172);
-    text-align: center;
-    font-weight: 650;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    -moz-backdrop-filter: blur(18px);
-    font-size: 23.5px;
-    line-height: 45px;
-    z-index: 999;
+.swiper-container:hover>.btn {
+    opacity: 1 !important;
 }
 
-.color01 {
-    background-color: red;
-    color: white;
+.swiper-container{
+    min-height: 100%;
 }
 
-.color02 {
-    background-color: darkorange;
-    color: white;
+/* === Pagination Enhance === */
+.swiper-container>.pagination {
+    bottom: 10px !important;
 }
 
-.color03 {
-    background-color: rgb(50, 103, 40);
-    color: white;
+.pagination .pagination-items {
+    width: 8px !important;
+    height: 8px !important;
+    margin-left: 4px !important;
+    margin-right: 4px !important;
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    border-radius: 50% !important;
+    top: 0 !important;
+    transition: all 0.25s ease !important;
 }
 
-.color04 {
-    background-color: rgb(152, 56, 125);
-    color: white;
-}
-.color05 {
-    background-color: rgb(152, 56, 147);
-    color: white;
+.pagination .pagination-items-active {
+    background-color: #fff !important;
+    border-color: #fff !important;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
-.base-layout {
-    font-size: small;
-    display: flex;
-    color: #313131;
-    width: 100%;
-    justify-content: start;
-    flex-wrap: nowrap;
-    line-height: 1.8;
-    box-sizing: border-box;
-    padding: 5px;
-    border: 1px solid #31313119;
-    overflow: hidden;
-}
-
-.col-1 {
-    width: 20%;
-    overflow: hidden;
-}
-
-.col-2 {
-    width: 80%;
-}
-
+/* === Specific Swiper Instances === */
 #swiper01 {
     width: 100%;
-    min-height: 180px;
-    height: 100%;
-}
-#swiper03{
-    height: 100%;
-}
-.swiper-container {
+    min-height: 200px;
     height: 100%;
 }
 
-.left-aside {
-    position: static;
-    width: 0;
-    margin-right: 10px;
-}
-code{
-    white-space: normal;
-}
-.left-aside .float {
-    position: fixed;
-    top: 54px;
-    /* margin-left: -15px; */
-    z-index: 8;
-    font-size: 13px;
-    background-color: white;
-    display: flex;
-    box-sizing: border-box;
-    padding: 4px;
-    flex-direction: column;
-    border: 1px solid #e7e7e7;
-}
-
-.content-col {
-    width: 90%;
-}
-
-.float>a {
-    color: black;
-    text-align: left;
-    text-decoration: none;
-    margin-bottom: 12px;
-}
-
-.float>a:focus {
-    color: rgb(255, 8, 8);
+#swiper03 {
+    height: 100%;
 }
 
 #swiper09 {
     height: 400px;
-    background-color: #313131;
+    background-color: #1E293B;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
 }
-.intro{
-    max-width: 1000px;
-    margin: 0 auto;
-    position: relative;
+
+/* === Footer === */
+.footer {
+    text-align: center;
+    padding: 28px 0 32px;
+    color: var(--text-muted);
+    font-size: 13px;
+    letter-spacing: 2px;
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer span {
+    color: var(--primary-light);
+    font-weight: 600;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+    .left-aside {
+        width: 0;
+        margin-right: 10px;
+    }
+
+    .left-aside .float {
+        width: 130px;
+    }
+
+    .content-col {
+        width: 100%;
+    }
+
+    .base-layout {
+        flex-direction: column;
+    }
+
+    .col-1 {
+        width: 100%;
+    }
+
+    .col-2 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 48px;
+    }
+
+    .to-header {
+        height: 48px;
+        line-height: 48px;
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .app {
+        padding: 0 12px;
+    }
+
+    .intro {
+        margin: 20px 0;
+        padding: 20px;
+    }
+
+    .left-aside {
+        display: none;
+    }
+
+    .content-col {
+        width: 100%;
+    }
+
+    .content {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .base-layout {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .col-1 {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    .col-2 {
+        width: 100%;
+    }
+
+    .swiper-items {
+        font-size: 36px;
+    }
+
+    #swiper09 {
+        height: 280px;
+    }
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
 }
