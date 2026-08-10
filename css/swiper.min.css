@@ -101,7 +101,6 @@
 }
 .swiper-container.horizontal>.pagination {
     width: fit-content;
-    padding-left: 12px;
     left:50%;
     transform: translateX(-50%);
 }
