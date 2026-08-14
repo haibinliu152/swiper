@@ -951,7 +951,6 @@
 						animate(index * distance, 0);
 						refresh_layout();
 						index = def_config.num - 1;
-
 					}
 				} else {
 					if (index < 0) {
@@ -1091,9 +1090,8 @@
 					}
 				}
 				if (object_contains(def_config, "mouseWheel") && (is_boolean(def_config['mouseWheel']) || is_object(def_config['mouseWheel']))) {
-					var _m_time = null;
 					var isTop = false;
-					var event_name = navigator.userAgent.indexOf("Firefox") > -1 ? "DOMMouseScroll" : "mousewheel";
+					var event_name = "wheel";
 					var reverse = def_config['mouseWheel'].reverse === true;// 反方向
 					var _fc = throttle(function (e) {
 						isTop = reverse ? (e.deltaY > 0) : (e.deltaY < 0);
@@ -1108,12 +1106,7 @@
 						pre_defalut(e);
 						_fc(e);
 					}
-					var win = $(window);
-					$(el).hover(function (e) {
-						win.on(event_name, mouseWheel);
-					}, function (e) {
-						win.off(event_name, mouseWheel);
-					});
+					$(el).on(event_name, mouseWheel);
 				}
 			}
 
