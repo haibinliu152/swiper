@@ -72,7 +72,7 @@ body {
     max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
-    padding: 0 24px;
+    padding:22px 24px 0 24px;
 }
 
 /* === Intro Section === */
@@ -167,6 +167,7 @@ body {
 
 /* === Content Cards === */
 .content {
+    scroll-margin-top: 78px;
     background: var(--card-bg);
     border-radius: var(--radius);
     padding: 24px 28px;
@@ -327,7 +328,7 @@ code {
     opacity: 1 !important;
 }
 
-.swiper-container{
+.swiper-container {
     height: 100%;
 }
 
