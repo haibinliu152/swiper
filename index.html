@@ -35,6 +35,7 @@
 					<a href="#tag10">过渡时间/动画</a>
 					<a href="#tag11">命名空间</a>
 					<a href="#tag12">鼠标滚轮控制</a>
+					<a href="#tag13">CSS 模式</a>
 				</div>
 			</div>
 			<div class="content-col">
@@ -355,6 +356,31 @@
 						</div>
 					</div>
 				</div>
+				<div class="content content-base" id="tag13">
+					<h4># 鼠标滚轮控制</h4>
+					<div class="base-layout">
+						<div class="col-1">
+							cssMode: boolean <br>
+							默认为false <br>
+							开启后,轮播将使用css3DOM动画,兼容性更好 <br>
+							<span class="has"> 注意：cssMode模式下,循环播放将无效 </span>
+						</div>
+						<div class="col-2">
+							<div id="swiper13" class="swiper-container">
+								<div class="swiper-wrapper">
+									<div class="swiper-items color01">1</div>
+									<div class="swiper-items color02">2</div>
+									<div class="swiper-items color03">3</div>
+									<div class="swiper-items color04">4</div>
+									<div class="swiper-items color05">5</div>
+								</div>
+								<o id="pagination13" class="pagination"></o>
+								<b id="prev13" class="btn btn-prev"></b>
+								<b id="next13" class="btn btn-next"></b>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -555,6 +581,20 @@
 					}
 				});
 				return this;
+			}, swiper13: function (el) {
+				new SimSwiper(el, {
+					pagination: {
+						el: "#pagination13",
+						click: true
+					},
+					// direction: "vertical",
+					navigator: {
+						prev: "#prev13",
+						next: "#next13"
+					},
+					cssMode: true
+				});
+				return this;
 			}
 		}
 		pageInit.swiper01("#swiper01")
@@ -568,7 +608,8 @@
 			.swiper09("#swiper09")
 			.swiper10("#swiper10")
 			.swiper11("#swiper11")
-			.swiper12("#swiper12");
+			.swiper12("#swiper12")
+			.swiper13("#swiper13");
 
 		// 侧边栏导航高亮
 		(function () {

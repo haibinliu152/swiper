@@ -193,6 +193,27 @@
 			}
 		})
 	}
+	// 动画缓动曲线
+	var ease_map = {
+		linear: function (p) {
+			return p;
+		},
+		swing: function (p) {
+			return 0.5 - Math.cos(p * Math.PI) / 2;
+		},
+		ease: function (p) {
+			return ease_map.swing(p);
+		},
+		"ease-in": function (p) {
+			return p * p;
+		},
+		"ease-out": function (p) {
+			return p * (2 - p);
+		},
+		"ease-in-out": function (p) {
+			return p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+		}
+	};
 	var is_mobile = function () {
 		return (/Android|iPhone|iPad|X11|Mac OS X/i.test(navigator.userAgent));
 	}
@@ -527,6 +548,10 @@
 				}
 			},
 			children: function (name) {
+				if (!this.$el) {
+					this.$el = [];
+					return this;
+				}
 				var list = [];
 				var first_floor_child = this.$el.children;
 				if (!name) {
@@ -726,7 +751,8 @@
 				} else {
 					return false;
 				}
-			}, hasClass: function (name) {
+			},
+			hasClass: function (name) {
 				var _ = this.$el;
 				var t = false;
 				if (!name || typeof name !== "string") {
@@ -742,6 +768,38 @@
 						}
 					});
 				}
+				return t;
+			},
+			animate: function (start, end, duration, ease, callback, done) {
+				var t = this;
+				if (undefined === start) {
+					start = 0;
+				}
+				if (undefined === end) {
+					end = 0;
+				}
+				if (undefined === duration || duration < 0) {
+					duration = 400;
+				}
+				var ease_fn = ease;
+				if (!is_function(ease_fn)) {
+					ease_fn = ease_map[ease] || ease_map.swing;
+				}
+				var begin = Date.now();
+				var timer = setInterval(function () {
+					var progress = Math.min((Date.now() - begin) / duration, 1);
+					var value = start + (end - start) * ease_fn(progress);
+					if (is_function(callback)) {
+						callback.call(t, value);
+					}
+					if (progress >= 1) {
+						clearInterval(timer);
+						timer = null;
+						if (is_function(done)) {
+							done.call(end);
+						}
+					}
+				}, 13);
 				return t;
 			}
 		};
@@ -778,7 +836,9 @@
 			itemsClass: "swiper-items",// 滑块类
 			slideClass: "swiper-slider",// item 类名
 			swiperClass: "swiper-container", // 父容器命名
-			wrapperClass: "swiper-wrapper" // 包裹命名
+			wrapperClass: "swiper-wrapper", // 包裹命名
+			cssMode: false,// css 模式
+			wrapNode: undefined
 		};
 		var base = {
 			rootEl: root.$el
@@ -820,8 +880,9 @@
 				width: undefined
 			}
 			try {
-				var s = $(el).children("." + def_config.wrapperClass)
+				var s = $(el).children("." + def_config.wrapperClass).addClass(def_config.cssMode ? 'css-mode' : '')
 					.add(slider);
+				def_config.wrapNode = s;
 				if (s.size() === 0) {
 					throw new SyntaxError('找不到命名空间\t' + def_config.wrapperClass);
 				}
@@ -837,7 +898,6 @@
 							marginTop: gutter / 2 + "px",
 							marginBottom: gutter / 2 + "px"
 						};
-						$(el).addClass(def_config.direction || "vertical");// 垂直方向
 					} else if (layout_style === 0) {
 						style_config.height = root_size.height + "px";
 						style_config.width = (root_size.width * size) + "px";
@@ -847,8 +907,8 @@
 							marginLeft: gutter / 2 + "px",
 							marginRight: gutter / 2 + "px"
 						};
-						$(el).addClass(def_config.direction || 'horizontal');// 水平方向
 					}
+					$(el).addClass((def_config.direction !== "vertical") ? 'horizontal' : 'vertical');
 					swiper_items = $(el).children("." + def_config.itemsClass).css(lay_opt).css({
 						boxSizing: "border-box"
 					});
@@ -1165,18 +1225,35 @@
 				}
 				return _;
 			}
+			var hasEl = false;
+			def_config.wrapNode.has(function (e) {
+				hasEl = true;
+			});
+			var hisDis = 0;
+			var scrollProp = isVertical ? "scrollTop" : "scrollLeft";
 			function animate(dis, duration, ease, call) {
 				if (undefined === ease) {
 					ease = "ease";
 				}
-				var transform = _accelerate(dis);
-				var _op = {
-					backfaceVisibility: "hidden",
-					willChange: "transform",
-					transition: ("all " + duration + "ms " + def_config.ease),
+				if (def_config.cssMode) {
+					if (hasEl) {
+						done = false;
+						def_config.wrapNode.animate(hisDis, dis, duration, ease, function (a) {
+							this.$el[0][scrollProp] = a;
+						}, function () {
+							hisDis = dis;
+						});
+					}
+				} else {
+					var transform = _accelerate(dis);
+					var _op = {
+						backfaceVisibility: "hidden",
+						willChange: "transform",
+						transition: ("all " + duration + "ms " + def_config.ease),
+					}
+					var styleSheet = object_assign({}, transform, _op);
+					def_config.slide.css(styleSheet);
 				}
-				var as = object_assign({}, transform, _op);
-				def_config.slide.css(as);
 				if (is_function(call)) {
 					call();
 				}
