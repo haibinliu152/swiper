@@ -193,27 +193,6 @@
 			}
 		})
 	}
-	// 动画缓动曲线
-	var ease_map = {
-		linear: function (p) {
-			return p;
-		},
-		swing: function (p) {
-			return 0.5 - Math.cos(p * Math.PI) / 2;
-		},
-		ease: function (p) {
-			return ease_map.swing(p);
-		},
-		"ease-in": function (p) {
-			return p * p;
-		},
-		"ease-out": function (p) {
-			return p * (2 - p);
-		},
-		"ease-in-out": function (p) {
-			return p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
-		}
-	};
 	var is_mobile = function () {
 		return (/Android|iPhone|iPad|X11|Mac OS X/i.test(navigator.userAgent));
 	}
@@ -769,44 +748,11 @@
 					});
 				}
 				return t;
-			},
-			animate: function (start, end, duration, ease, callback, done) {
-				var t = this;
-				if (undefined === start) {
-					start = 0;
-				}
-				if (undefined === end) {
-					end = 0;
-				}
-				if (undefined === duration || duration < 0) {
-					duration = 400;
-				}
-				var ease_fn = ease;
-				if (!is_function(ease_fn)) {
-					ease_fn = ease_map[ease] || ease_map.swing;
-				}
-				var begin = Date.now();
-				var timer = setInterval(function () {
-					var progress = Math.min((Date.now() - begin) / duration, 1);
-					var value = start + (end - start) * ease_fn(progress);
-					if (is_function(callback)) {
-						callback.call(t, value);
-					}
-					if (progress >= 1) {
-						clearInterval(timer);
-						timer = null;
-						if (is_function(done)) {
-							done.call(end);
-						}
-					}
-				}, 13);
-				return t;
 			}
 		};
 		return g;
 	}
 	if (ext) {
-
 		return $;
 	}
 	var root = $(el);
@@ -837,13 +783,12 @@
 			slideClass: "swiper-slider",// item 类名
 			swiperClass: "swiper-container", // 父容器命名
 			wrapperClass: "swiper-wrapper", // 包裹命名
-			cssMode: false,// css 模式
-			wrapNode: undefined
+			wrapNode: undefined,
+			effect: "slide"
 		};
 		var base = {
 			rootEl: root.$el
 		};
-
 		var endx = 0;
 		var swiper_items;
 		Object.freeze(base);
@@ -880,7 +825,7 @@
 				width: undefined
 			}
 			try {
-				var s = $(el).children("." + def_config.wrapperClass).addClass(def_config.cssMode ? 'css-mode' : '')
+				var s = $(el).children("." + def_config.wrapperClass)
 					.add(slider);
 				def_config.wrapNode = s;
 				if (s.size() === 0) {
@@ -890,8 +835,7 @@
 					root_size = get_style($(el));
 					var lay_opt = undefined;
 					if (layout_style === 1) { // 判断方向
-						style_config.width = root_size.width + "px";
-						style_config.height = (root_size.height * size) + "px";
+						style_config.height = root_size.height * size + "px";
 						lay_opt = {
 							width: (root_size.width) + "px",
 							height: (root_size.height - gutter) + "px",
@@ -899,8 +843,7 @@
 							marginBottom: gutter / 2 + "px"
 						};
 					} else if (layout_style === 0) {
-						style_config.height = root_size.height + "px";
-						style_config.width = (root_size.width * size) + "px";
+						style_config.width = root_size.width * size + "px";
 						lay_opt = {
 							width: (root_size.width - gutter) + "px",
 							height: (root_size.height) + "px",
@@ -1225,26 +1168,11 @@
 				}
 				return _;
 			}
-			var hasEl = false;
-			def_config.wrapNode.has(function (e) {
-				hasEl = true;
-			});
-			var hisDis = 0;
-			var scrollProp = isVertical ? "scrollTop" : "scrollLeft";
 			function animate(dis, duration, ease, call) {
 				if (undefined === ease) {
 					ease = "ease";
 				}
-				if (def_config.cssMode) {
-					if (hasEl) {
-						done = false;
-						def_config.wrapNode.animate(hisDis, dis, duration, ease, function (a) {
-							this.$el[0][scrollProp] = a;
-						}, function () {
-							hisDis = dis;
-						});
-					}
-				} else {
+				if (def_config.effect === "slide") {
 					var transform = _accelerate(dis);
 					var _op = {
 						backfaceVisibility: "hidden",
