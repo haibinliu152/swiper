@@ -492,13 +492,18 @@
 						var parent = this_el[0].parentNode;
 						this_el.forEach(function (item) {
 							if (item) {
-								parent.removeChild(item);
+								try {
+									parent.removeChild(item);
+								} catch (err) {
+									void (err)
+								}
 							}
 						});
 					}
 				} else {
 					this_el.parentNode.removeChild(this_el);
 				}
+
 				return this;
 			},
 			clone: function (copy_child) {

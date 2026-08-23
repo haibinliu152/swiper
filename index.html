@@ -34,6 +34,7 @@
 					<a href="#tag10">过渡时间/动画</a>
 					<a href="#tag11">命名空间</a>
 					<a href="#tag12">鼠标滚轮控制</a>
+					<a href="#tag13">嵌套</a>
 				</div>
 			</div>
 			<div class="content-col">
@@ -536,7 +537,8 @@
 					loop: true
 				});
 				return this;
-			}, swiper12: function (el) {
+			},
+			swiper12: function (el) {
 				new SimSwiper(el, {
 					pagination: {
 						el: "#pagination12",
@@ -553,7 +555,7 @@
 					}
 				});
 				return this;
-			}
+			},
 		}
 		pageInit.swiper01("#swiper01")
 			.swiper02("#swiper02")
@@ -567,7 +569,6 @@
 			.swiper10("#swiper10")
 			.swiper11("#swiper11")
 			.swiper12("#swiper12");
-
 		// 侧边栏导航高亮
 		(function () {
 			var nav = document.querySelectorAll('.float > a');
