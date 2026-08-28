@@ -503,7 +503,6 @@
 				} else {
 					this_el.parentNode.removeChild(this_el);
 				}
-
 				return this;
 			},
 			clone: function (copy_child) {
@@ -1097,6 +1096,7 @@
 						_bind_keydown(true);
 					}
 				}
+				// 鼠标滚轮操作
 				if (object_contains(def_config, "mouseWheel") && (is_boolean(def_config['mouseWheel']) || is_object(def_config['mouseWheel']))) {
 					var isTop = false;
 					var event_name = "wheel";
@@ -1271,7 +1271,7 @@
 					return;
 				}
 				play_slide(false);
-				__(e);
+				e.stopPropagation();
 				startTime = new Date().getTime();
 				var touch = def_config.is_mobile ? e.targetTouches[0] : e;
 				startx = touch[isVertical ? "clientY" : "clientX"];
@@ -1303,7 +1303,10 @@
 				last_touch_pos = x;
 				is_left = (x - startx) < 0;
 				var max_translate = distance * (def_config.loop ? def_config.num : def_config.num - 1);
-				is_click = Math.abs(x - startx) >= 10;// 检测是否为点击
+				is_click = Math.abs(x - startx) >= 5;// 检测是否为点击
+				if (!is_click) {
+					def_config.slide.addClass("swiper-drab");
+				}
 				var bound = 0;// 边界判定
 				var rever = -movex;
 				if (rever < 0) {
@@ -1346,6 +1349,7 @@
 			function touch_end(e) {
 				prevent_link(is_click);
 				__(e);
+				def_config.slide.removeClass("swiper-drab");
 				if (!isHover) {
 					play_slide(true);
 				}
