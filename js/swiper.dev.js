@@ -805,7 +805,8 @@
 		var TOUCH_EVENT = {
 			"down": def_config.is_mobile ? "touchstart" : msie === -1 ? "pointerdown" : "mousedown",//
 			"move": def_config.is_mobile ? "touchmove" : msie === -1 ? "pointermove" : "mousemove",
-			"up": def_config.is_mobile ? "touchend" : msie === -1 ? "pointerup" : "mouseup" //
+			"up": def_config.is_mobile ? "touchend" : msie === -1 ? "pointerup" : "mouseup", //
+			"cancel": def_config.is_mobile ? "touchcancel" : msie === -1 ? "pointercancel" : "mouseleave" //
 		};
 		var gutter = def_config.gutter || 0;
 		var j = (function () {
@@ -814,7 +815,7 @@
 			def_config.slide = slider;
 			swiper_items = root.children("." + def_config.itemsClass);
 			if (swiper_items.size() === 0) {
-				throw new Error("找不到滑块元素，请确保父容器下存在 class 为 swiper-items 的子元素");
+				throw new Error("找不到滑块元素，请确保父容器下存在 class 为 " + def_config.itemsClass + " 的子元素");
 			}
 			swiper_items.remove();
 			var clone_swipers = swiper_items.clone(); // 最终复制的节点
@@ -1213,7 +1214,9 @@
 				swiper_items.each(function (e) {
 					var t_link = e;
 					var links = t_link.children;
-					all_links.push(links);
+					if (links && links.length > 0) {
+						all_links.push(links);
+					}
 				});
 			}
 			function load_image(item, last) {
@@ -1271,6 +1274,9 @@
 					return;
 				}
 				play_slide(false);
+				if (e.target.tagName === "A") {
+					e.preventDefault();
+				}
 				e.stopPropagation();
 				startTime = new Date().getTime();
 				var touch = def_config.is_mobile ? e.targetTouches[0] : e;
@@ -1347,8 +1353,8 @@
 				animate(-(movex - offset_x), 0);
 			}
 			function touch_end(e) {
-				prevent_link(is_click);
 				__(e);
+				prevent_link(is_click);
 				def_config.slide.removeClass("swiper-drab");
 				if (!isHover) {
 					play_slide(true);
@@ -1402,6 +1408,7 @@
 				if (!def_config.disabvarouch) {
 					slider_el.on(TOUCH_EVENT['down'], touch_start);
 					def_config.is_mobile ? slider_el.on(TOUCH_EVENT["up"], touch_end) : $(document).on(TOUCH_EVENT["up"], touch_end);
+					def_config.is_mobile ? slider_el.on(TOUCH_EVENT["cancel"], touch_end) : $(document).on(TOUCH_EVENT["cancel"], touch_end);
 				}
 				set_postion();
 			}
