@@ -1274,7 +1274,8 @@
 					return;
 				}
 				play_slide(false);
-				if (e.target.tagName === "A") {
+				var tgName = e.target.tagName;
+				if (tgName === "A" || tgName === "IMG") {
 					e.preventDefault();
 				}
 				e.stopPropagation();
