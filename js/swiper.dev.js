@@ -1275,8 +1275,11 @@
 				}
 				play_slide(false);
 				var tgName = e.target.tagName;
-				if (tgName === "A" || tgName === "IMG") {
-					e.preventDefault();
+				// 判断是否是touch事件
+				if (!def_config.is_mobile) {
+					if (tgName === "A" || tgName === "IMG") {
+						e.preventDefault();
+					};
 				}
 				e.stopPropagation();
 				startTime = new Date().getTime();
