@@ -1282,10 +1282,8 @@
 					};
 				}
 				e.stopPropagation();
-				startTime = new Date().getTime();
 				var touch = def_config.is_mobile ? e.targetTouches[0] : e;
 				startx = touch[isVertical ? "clientY" : "clientX"];
-				_activeTouchId = touch.identifier !== undefined ? touch.identifier : null;
 				is_press = true;
 				var b_el = def_config.is_mobile ? this : document;
 				$(b_el).on(TOUCH_EVENT["move"], function (e) {
